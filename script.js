@@ -153,7 +153,6 @@ function ingame(dt, time) {
         document.getElementById("prologue").style.display = "none";
         document.getElementById("ingame").style.display = "block";
         for (let key in sfx) {
-            console.log(key);
             sfx[key].currentTime = 0;
             sfx[key].pause();
         }
@@ -242,7 +241,7 @@ function ingame(dt, time) {
         }
     }
     if (camsOpened) powerDrain++;
-    power -= powerDrain * dt / 4;
+    power -= powerDrain * dt / 6;
     diffMult += dt / 200;
     if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
     if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
@@ -281,7 +280,6 @@ function ingame(dt, time) {
     for (let i = 0; i<doorCharacters.length; i++) {
         const char = doorCharacters[i];
         char.moveTimer += dt * char.speed * diffMult;
-        console.log(i,char.element.id,char.door, doors[char.door]);
         if (char.moveTimer >= char.moveTime && !doors[char.door]) {
             char.element.style.opacity = 1;
             char.killTimer += dt;
@@ -370,8 +368,12 @@ function update(time) {
         }
         if (scene == "prologue") {
             prologue(dt, time);
-        } else {
+        } else if (scene == "ingame") {
             ingame(dt, time);
+        } else if (scene == "win") {
+            document.getElementById("ingame").style.display = "none";
+            document.getElementById("win").style.display = "block";
+            sfx.win.play();
         }
     }
     document.getElementById("transition").style.opacity = transitionOpacity;

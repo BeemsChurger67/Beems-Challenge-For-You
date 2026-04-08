@@ -259,3 +259,13 @@ body {
 #impurityBeems {
     background-image: url(assets/russianbeems.png);
 }
+#win {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-image: url(assets/YOUWIN.png);
+    display: none;
+}
