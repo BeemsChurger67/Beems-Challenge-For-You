@@ -29,6 +29,11 @@ document.getElementById("next").addEventListener("click", (e) => {
     }
     dialogueIter++;
 });
+let eternalMod = false;
+document.getElementById("prologueHelper").addEventListener("click", () => {
+    eternalMod = true;
+    scene = "ingame";
+});
 window.addEventListener("mousedown", (e) => {
     console.log(e.target.id);
 });
@@ -168,7 +173,9 @@ function ingame(dt, time) {
         camsOpened = false;
         document.getElementById("office").style.display = "block";
         document.getElementById("cams").style.display = "none";
-        diffMult = 1;
+        if (eternalMod) {
+            diffMult = 2.2;
+        }
         doorCharacters = [
             {
                 moveTimer: 0,
@@ -206,17 +213,17 @@ function ingame(dt, time) {
         ];
         timerCharacters = [
             {
-                killTimer: 5 * (Math.random()*2 + 1) / diffMult,
+                killTimer: 5 * (Math.random()*2 + 2) - (diffMult*2),
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer1")
             },
             {
-                killTimer: 5 * (Math.random()*2 + 1) / diffMult,
+                killTimer: 5 * (Math.random()*2 + 2) / diffMult,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer2")
             },
             {
-                killTimer: 5 * (Math.random()*2 + 1) / diffMult,
+                killTimer: 5 * (Math.random()*2 + 2) / diffMult,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer3")
             },
@@ -242,7 +249,6 @@ function ingame(dt, time) {
     }
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 6;
-    diffMult += dt / 200;
     if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
     if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
     if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
@@ -265,8 +271,18 @@ function ingame(dt, time) {
     } 
     if (phase === 3) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
-        document.getElementById("ingame").style.rotate = Math.random()*4-2+"deg";
-    } 
+        document.getElementById("ingame").style.rotate = Math.random()*2-1+"deg";
+    }
+    if (phase === 4) {
+        document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
+        document.getElementById("ingame").style.rotate = Math.random()*3-1.5+"deg";
+        document.getElementById("ingame").style.filter = "saturate(2)";
+    }
+    if (!eternalMod) {
+        diffMult += dt / 300;
+    } else {
+        phase = 4;
+    }
     document.getElementById("timer").textContent = "Percentage: " + Math.floor(ingameTimer / 360 * 100) + "%";
     document.getElementById("power").textContent = "Power: " + power.toFixed(1) + "%";
     document.getElementById("difficulty").textContent = "Difficulty: " + diffMult.toFixed(2) + "x";

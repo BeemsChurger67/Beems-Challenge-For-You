@@ -16,7 +16,6 @@ body {
 #prologue {
     position: absolute;
     inset: 0;
-    filter: url(#coolFilter);
 }
 .background {
     position: absolute;
@@ -268,4 +267,10 @@ body {
     background-size: 100% 100%;
     background-image: url(assets/YOUWIN.png);
     display: none;
+}
+#prologueHelper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 0.5vh;
 }
