@@ -1,0 +1,261 @@
+@font-face {
+    font-family: arcade;
+    src: url(assets/arcade.ttf);
+}
+body {
+    background-color: black;
+    font-family: arcade;
+    user-select: none;
+    overflow: hidden;
+}
+#prologue, #ingame {
+    display: none;
+    inset: 0;
+    position: absolute;
+}
+#prologue {
+    position: absolute;
+    inset: 0;
+    filter: url(#coolFilter);
+}
+.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(assets/space.png);
+    background-size: 90vh 90vh;
+    opacity: 0.3;
+    filter: grayscale(1) brightness(1) contrast(1);
+}
+#transition {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+    pointer-events: none;
+}
+#prologueBox {
+    position: absolute;
+    gap: 5vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 5vh;
+    color: white;
+    text-shadow: 0 0 1vh white;
+    text-align: center;
+}
+#beems {
+    width: 20vh;
+    height: 20vh;
+    background-image: url(assets/beemscat.png);
+    background-size: 100% 100%;
+    box-shadow: 0 0 1vh white;
+}
+#dialogue {
+    text-align: center;
+    width: 100%;
+}
+#next {
+    width: 20vh;
+    height: 5vh;
+    font-size: 3vh;
+    font-family: arcade;
+    background-color: black;
+    color: white;
+    border: solid white 0.5vh;
+}
+#next:hover {
+    scale: 1.1;
+}
+#interact {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    color:white;
+}
+#dialogueCertain {
+    color: red;
+    text-shadow: none;
+}
+#BCFYText {
+    display: none;
+}
+.BCFYT {
+    position: absolute;
+    left: 50%;
+    top: 74%;
+    width: 100vw;
+    text-align: center;
+    transform: translate(-50%,-50%);
+    opacity: 0.4;
+    color: red;
+    text-shadow: none;
+}
+#vignette {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    background-image: url(assets/vignette.png);
+    background-size: 100% 100%;
+    pointer-events: none;
+}
+#officeBG {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-image: url(assets/office.png);
+}
+#fogBg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.fog {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background-size: 100% 100%;
+    background-image: url(assets/fog.png);
+    pointer-events: none;
+}
+.door {
+    width: 20vh;
+    height: 40vh;
+    background-size: 100% 100%;
+    background-image: url(assets/door.png);
+    box-shadow: 0 0 2vh black;
+    margin: auto;
+}
+.doorChar {
+    width: 20vh;
+    height: 40vh;
+    background-size: 100% 100%;
+    background-image: url(assets/beemscat.png);
+    box-shadow: 0 0 2vh black;
+    margin: auto;
+    pointer-events: none;
+}
+#doors, #doorCharacters {
+    position: absolute;
+    display: grid;
+    text-align: center;
+    grid-template-columns: repeat(3, 30vh);
+    right: 0;
+    top: 53.5%;
+    width: 100%;
+    transform:translate(50%,-50%);
+}
+#doorCharacters {
+    pointer-events: none;
+}
+#openCams {
+    position: absolute;
+    left: 50%;
+    bottom: 2%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 1vh 2vh;
+    border: solid black 1vh;
+    font-size: 4vh;
+}
+#openCams:hover {
+    transform: translate(-50%,-50%) scale(1.2);
+}
+#camBackground {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(assets/cam0.png);
+    background-size: 100% 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+#cams {
+    display: none;
+}
+#camButtons {
+    position: absolute;
+    display: grid;
+    gap: 10vh;
+    grid-template-rows: 6vh 6vh;
+    grid-template-columns: 10vh 10vh 10vh;
+    right: 10vh;
+    bottom: 10vh;
+    background-color: rgba(0,0,0,0.5);
+    padding: 1vh;
+}
+#camButtons button {
+    border: solid black 1vh;
+    font-size: 2vh;
+    padding: 0;
+    font-family: arcade;
+    background-color: white;
+}
+#shockButton {
+    position: absolute;
+    font-family: arcade;
+    padding: 2vh;
+    right: 37vh;
+    border: solid black 1vh;
+    font-size: 5vh;
+    top: 50%;
+    transform: translate(50%,-50%);
+}
+#textUI {
+    position: absolute;
+    left: 1vh;
+    bottom: 1vh;
+    font-size: 3.5vh;
+    color: white;
+    text-shadow: 0 0 1vh black;
+    pointer-events: none;
+}
+#leftCharacters {
+    position: absolute;
+    left: 5vh;
+    top: 20%;
+    font-size: 5vh;
+    color: white;
+    text-shadow: 0 0 1vh black;
+    transform: translate(0,-50%);
+}
+#leftBeems {
+    position: absolute;
+    left: 5vh;
+    top: 53.5%;
+    width: 30vh;
+    height: 40vh;
+    background-image: url(assets/beemscat.png);
+    background-size: 100% 100%;
+    transform: translate(0,-50%);
+}
+#foxyBeems, #impurityBeems {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30vh;
+    height: 40vh;
+    background-image: url(assets/beemscat.png);
+    background-size: 100% 100%;
+    transform: translate(-50%,-50%);
+}
+#impurityBeems {
+    background-image: url(assets/russianbeems.png);
+}

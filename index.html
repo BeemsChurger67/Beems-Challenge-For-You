@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Beems's Challenge For You</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="shortcut icon" href="assets/beemsFavicon.png" type="image/x-icon">
+    </head>
+    <body>
+        <div id="interact">
+            <div id="clickme">Click Me</div>
+        </div>
+        <div id="prologue"> 
+            <div id="backgrounds">
+                <div class="background" id="background1"></div>
+                <div class="background" id="background2"></div>
+                <div class="background" id="background3"></div>
+            </div>
+            <div id="prologueBox">
+                <img id="beems">
+                <div id="dialogue">hi</div>
+                <div id="BCFYText">
+                    <div class="BCFYT" id="BCFY1">Beems's Challenge For You</div>
+                    <div class="BCFYT" id="BCFY2">Beems's Challenge For You</div>
+                    <div class="BCFYT" id="BCFY3">Beems's Challenge For You</div>
+                    <div class="BCFYT" id="BCFY4">Beems's Challenge For You</div>
+                </div>
+                <button id="next">Next..</button>
+            </div>
+            <div id="vignette"></div>
+        </div>
+        <div id="ingame">
+            <div id="office">
+                <div id="officeBG"></div>
+                <div id="doors">
+                    <div class="door" id="door1" data-value="0"></div>
+                    <div class="door" id="door2" data-value="1"></div>
+                    <div class="door" id="door3" data-value="2"></div>
+                </div>
+                <div id="doorCharacters">
+                    <div class="doorChar" id="doorCharacter1" data-value="0"></div>
+                    <div class="doorChar" id="doorCharacter2" data-value="1"></div>
+                    <div class="doorChar" id="doorCharacter3" data-value="2"></div>
+                </div>
+                <div id="leftBeems"></div>
+                <div id="leftCharacters">
+                    <div class="timerChar" id="timer1">CAM 0 | 0.00s</div>
+                    <div class="timerChar" id="timer2">CAM 0 | 0.00s</div>
+                    <div class="timerChar" id="timer3">CAM 0 | 0.00s</div>
+                </div>
+            </div>
+            <div id="cams">
+                <div id="camBackground"></div>
+                <button id="shockButton">Shock</button>
+                <div id="foxyBeems"></div>
+                <div id="impurityBeems"></div>
+                <div id="camButtons">
+                    <button class="camButton" data-cam="0">CAM 0</button>
+                    <button class="camButton" data-cam="1">CAM 1</button>
+                    <button class="camButton" data-cam="2">CAM 2</button>
+                    <button class="camButton" data-cam="3">CAM 3</button>
+                    <button class="camButton" data-cam="4">CAM 4</button>
+                    <button class="camButton" data-cam="5">CAM 5</button>
+                </div>
+            </div>
+            <div id="openCams">Open Cams</div>
+            <div id="fogBg">
+                <div class="fog" id="fog1"></div>
+                <div class="fog" id="fog2"></div>
+                <div class="fog" id="fog3"></div>
+            </div>
+            <div id="textUI">
+                <div id="timer">Percentage: 0%</div>
+                <div id="difficulty">Difficulty: 1.00x</div>
+                <div id="power">Power: 100.0%</div>
+            </div> 
+        </div>
+        <div id="transition"></div>
+        <script src="script.js"></script>
+    </body>
+</html>
