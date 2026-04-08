@@ -74,7 +74,7 @@ document.getElementById("shockButton").addEventListener("mousedown", () => {
     sfx.electricity.currentTime = 0;
     sfx.electricity.play();
     transitionOpacity = 0.5;
-    power -= 0.5;
+    power -= 0.25;
     shocked = true;
 });
 document.getElementById("openCams").addEventListener("mousedown", () => {
@@ -250,7 +250,7 @@ function ingame(dt, time) {
         }
     }
     if (camsOpened) powerDrain++;
-    power -= powerDrain * dt / 6;
+    power -= powerDrain * dt / 4;
     if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
     if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
     if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
