@@ -110,7 +110,7 @@ const dialogue = [
     "you have beems",
     "he appears in the doors, click them to close them",
     "then you have beems",
-    "theres timers on the left of the office and you gotta be in the correct cam before the timer ends and cams have to be opened",
+    "theres timers on the left of the office and you gotta shock the correct cam before the timer ends and cams have to be opened",
     "then you have beems",
     "in cam 3 if beems's left eye is bright then you need to shock him but if its the right eye dont shock him otherwise you die, he keeps progressing and becoming bigger and bigger",
     "then you have beems",
@@ -175,6 +175,8 @@ function ingame(dt, time) {
         document.getElementById("cams").style.display = "none";
         if (eternalMod) {
             diffMult = 2.2;
+        } else {
+            diffMult = 1;
         }
         doorCharacters = [
             {
