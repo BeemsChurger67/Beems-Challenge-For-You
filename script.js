@@ -318,7 +318,7 @@ function ingame(dt, time) {
     }
     foxyBeems.killTimer += dt * diffMult;
     if (cam == 3 && shocked) {
-        foxyBeems.killTimer /= 2;
+        foxyBeems.killTimer /= 3;
     }
     if (cam == 3) {
         foxyBeems.element.style.transform = "translate(-50%,-50%) scale(" + foxyBeems.killTimer / 5 + ")";
@@ -327,7 +327,7 @@ function ingame(dt, time) {
         foxyBeems.element.style.display = "none";
     }
     if (foxyBeems.killTimer >= foxyBeems.killTime) {
-        firstFrame[1] = true;
+        firstFrame[1] = false;
     }
     impurityBeems.moveTimer += dt * diffMult;
     if (impurityBeems.moveTimer >= impurityBeems.moveTime) {
