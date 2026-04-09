@@ -192,8 +192,11 @@ let saveData = {
     playtime: playtime,
     bestRun: bestRun,
 }
+let killerOpacity = 1.5;
+let killer = "";
 function ingame(dt, time) {
     if (!firstFrame[1]) {
+        killerOpacity = 1.5;
         firstFrame[0] = false;
         firstFrame[1] = true;
         firstFrame[2] = false;
@@ -305,7 +308,10 @@ function ingame(dt, time) {
             cam: 5,
             element: document.getElementById("impurityBeems")
         }
+        document.getElementById("killer").textContent = "You died to " + killer;
     }
+    killerOpacity -= dt;
+    document.getElementById("killer").style.opacity = killerOpacity;
     powerDrain = 0;
     for (let i = 0; i<doors.length; i++) {
         if (doors[i]) {
@@ -379,6 +385,7 @@ function ingame(dt, time) {
     }
     if (power <= 0) {
         firstFrame[1] = false;
+        killer = "Power";
     }
     for (let i = 0; i<doorCharacters.length; i++) {
         const char = doorCharacters[i];
@@ -388,6 +395,7 @@ function ingame(dt, time) {
             char.killTimer += dt;
             if (char.killTimer >= char.killTime) {
                 firstFrame[1] = false;
+                killer = "Door Beems " + i; 
             }
         } else {
             char.element.style.opacity = 0;
@@ -410,6 +418,7 @@ function ingame(dt, time) {
         tim.killTimer -= dt;
         if (tim.killTimer < 0) {
             firstFrame[1] = false;
+            killer = "Timer Beems CAM" + tim.cam; 
         }
         tim.element.textContent = "CAM " + tim.cam + " | " + tim.killTimer.toFixed(2) + "s";
         if (cam == tim.cam && shocked) {
@@ -418,7 +427,6 @@ function ingame(dt, time) {
             } else {
                 tim.killTimer = 10 + (Math.random()*5) - diffMult*3;
             }
-           
             tim.cam = Math.round(Math.random()*5);
         }
     }
@@ -438,6 +446,7 @@ function ingame(dt, time) {
     }
     if (foxyBeems.killTimer >= foxyBeems.killTime) {
         firstFrame[1] = false;
+        killer = "Foxy Beems"; 
     }
     impurityBeems.moveTimer += dt * diffMult;
     if (impurityBeems.moveTimer >= impurityBeems.moveTime) {
@@ -445,6 +454,7 @@ function ingame(dt, time) {
         impurityBeems.cam--;
         if (impurityBeems.cam == -1) {
             firstFrame[1] = false;
+            killer = "Impurity Beems";
         }
     }
     if (impurityBeems.cam == cam && camsOpened) {

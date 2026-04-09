@@ -37,6 +37,7 @@ body {
     background-color: black;
     opacity: 0;
     pointer-events: none;
+    z-index: 2;
 }
 #prologueBox {
     position: absolute;
@@ -347,4 +348,15 @@ body {
     text-align: center;
     font-size: 8vh;
     transform: translate(-50%,0);
+}
+#killer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 6vh;
+    color: white;
+    pointer-events: none;
+    z-index: 3;
+    text-shadow: 0 0 1vh black;
 }
