@@ -354,6 +354,10 @@ function ingame(dt, time) {
     if (prePatch && eternalMod) {
         diffMult = 3;
     }
+    for (let i = 1; i<4; i++) {
+        document.getElementById("fog"+i).style.backgroundPositionX = time * i / 100 * i / 4 + "vh";
+        document.getElementById("fog"+i).style.backgroundPositionY = time * i / 150 + "vh";
+    }
     document.getElementById("fogBg").style.filter = "";
     if (phase === 1) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/100+"deg)";
@@ -365,11 +369,19 @@ function ingame(dt, time) {
     if (phase === 3) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
         document.getElementById("ingame").style.rotate = Math.random()*2-1+"deg";
+        for (let i = 1; i<4; i++) {
+            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
+        }
     }
     if (phase === 4) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
         document.getElementById("ingame").style.rotate = Math.random()*3-1.5+"deg";
         document.getElementById("ingame").style.filter = "saturate(2)";
+        for (let i = 1; i<4; i++) {
+            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
+        }
     }
     if (!eternalMod) {
         diffMult += dt / 300;
@@ -470,10 +482,6 @@ function ingame(dt, time) {
         impurityBeems.element.style.display = "none";
     }
     document.getElementById("officeBG").style.backgroundPositionX = time / 50 + "vh";
-    for (let i = 1; i<4; i++) {
-        document.getElementById("fog"+i).style.backgroundPositionX = time * i / 100 * i / 4 + "vh";
-        document.getElementById("fog"+i).style.backgroundPositionY = time * i / 150 + "vh";
-    }
     transitionOpacity -= dt / 2;
     soundVolume += dt / 2;
     shocked = false;
