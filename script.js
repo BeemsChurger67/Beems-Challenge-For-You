@@ -259,17 +259,17 @@ function ingame(dt, time) {
         ];
         timerCharacters = [
             {
-                killTimer: 7 + (Math.random()*3) - diffMult*2,
+                killTimer: 10 + (Math.random()*3) - diffMult*2.5,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer1")
             },
             {
-                killTimer: 7 + (Math.random()*3) - diffMult*2,
+                killTimer: 10 + (Math.random()*3) - diffMult*2.5,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer2")
             },
             {
-                killTimer: 7 + (Math.random()*3) - diffMult,
+                killTimer: 10 + (Math.random()*3) - diffMult*2.5,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer3")
             },
