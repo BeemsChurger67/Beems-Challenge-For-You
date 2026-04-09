@@ -112,7 +112,7 @@ document.getElementById("shockButton").addEventListener("mousedown", () => {
     sfx.electricity.currentTime = 0;
     sfx.electricity.play();
     transitionOpacity = 0.5;
-    power -= 0.25;
+    power -= 0.15;
     shocked = true;
 });
 document.getElementById("openCams").addEventListener("mousedown", () => {
@@ -301,7 +301,7 @@ function ingame(dt, time) {
         };
         impurityBeems = {
             moveTimer: 0,
-            moveTime: 10,
+            moveTime: 6,
             cam: 5,
             element: document.getElementById("impurityBeems")
         }
@@ -317,7 +317,7 @@ function ingame(dt, time) {
     }
     playtime += dt;
     if (camsOpened) powerDrain++;
-    power -= powerDrain * dt / 4;
+    power -= powerDrain * dt / 6;
     if (prePatch) {
         if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
         if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
@@ -413,13 +413,22 @@ function ingame(dt, time) {
         }
         tim.element.textContent = "CAM " + tim.cam + " | " + tim.killTimer.toFixed(2) + "s";
         if (cam == tim.cam && shocked) {
-            tim.killTimer = 7 + (Math.random()*3) - diffMult*2;
+            if (prePatch) {
+                tim.killTimer = 7 + (Math.random()*3) - diffMult*2;
+            } else {
+                tim.killTimer = 10 + (Math.random()*5) - diffMult*3;
+            }
+           
             tim.cam = Math.round(Math.random()*5);
         }
     }
     foxyBeems.killTimer += dt * diffMult;
     if (cam == 3 && shocked) {
-        foxyBeems.killTimer /= 3;
+        if (prePatch) {
+            foxyBeems.killTimer /= 2;
+        } else {
+            foxyBeems.killTimer /= 3;
+        }
     }
     if (cam == 3) {
         foxyBeems.element.style.transform = "translate(-50%,-50%) scale(" + foxyBeems.killTimer / 5 + ")";
