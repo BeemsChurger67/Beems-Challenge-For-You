@@ -19,6 +19,7 @@ let eternalMod = false;
 let FNATGCams = false;
 let prePatch = false;
 let easyMode = false;
+let visibleTimers = false;
 document.getElementById("settings").addEventListener("click", (e) => {
     if (e.target.id == "start") {scene = "ingame"}
     if (e.target.id == "settingsOpen") {
@@ -47,6 +48,11 @@ document.getElementById("settings").addEventListener("click", (e) => {
         easyMode = true;
     } else {
         easyMode = false;
+    }
+    if (document.getElementById("visibleTimers").checked) {
+        visibleTimers = true;
+    } else {
+        visibleTimers = false;
     }
 });
 document.getElementById("next").addEventListener("click", (e) => {
@@ -193,7 +199,7 @@ let saveData = {
     bestRun: bestRun,
 }
 let killerOpacity = 1.5;
-let killer = "";
+let killer = "nobody lol";
 function ingame(dt, time) {
     if (!firstFrame[1]) {
         killerOpacity = 1.5;
@@ -387,6 +393,15 @@ function ingame(dt, time) {
         diffMult += dt / 300;
     } else {
         phase = 4;
+    }
+    if (!visibleTimers) {
+        if (camsOpened) {
+            document.getElementById("leftCharacters").style.display = "none";
+        } else {
+            document.getElementById("leftCharacters").style.display = "block";
+        }
+    } else {
+        document.getElementById("leftCharacters").style.display = "block";
     }
     document.getElementById("timer").textContent = "Percentage: " + Math.floor(ingameTimer / 360 * 100) + "%";
     document.getElementById("power").textContent = "Power: " + power.toFixed(1) + "%";
