@@ -17,6 +17,7 @@ for (let key in audioList) {
 let settingsOpened = false;
 let eternalMod = false;
 let FNATGCams = false;
+let prePatch = false;
 document.getElementById("settings").addEventListener("click", (e) => {
     if (e.target.id == "start") {scene = "ingame"}
     if (e.target.id == "settingsOpen") {
@@ -35,6 +36,11 @@ document.getElementById("settings").addEventListener("click", (e) => {
         FNATGCams = true;
     } else {
         FNATGCams = false;
+    }
+    if (document.getElementById("prePatch").checked) {
+        prePatch = true;
+    } else {
+        prePatch = false;
     }
 });
 document.getElementById("next").addEventListener("click", (e) => {
@@ -201,8 +207,8 @@ function ingame(dt, time) {
         for (let i = 0; i<3; i++) {
             document.getElementById("door" + (i+1)).style.filter = "brightness(0)";
         }
-        transitionOpacity = 1.5;
-        soundVolume = -0.5;
+        transitionOpacity = 1.1;
+        soundVolume = -0.1;
         power = 100;
         sfx.ingameTheme.play();
         phase = 0;
@@ -259,17 +265,17 @@ function ingame(dt, time) {
         ];
         timerCharacters = [
             {
-                killTimer: 10 + (Math.random()*3) - diffMult*2.5,
+                killTimer: 10 + (Math.random()*5) - diffMult*3,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer1")
             },
             {
-                killTimer: 10 + (Math.random()*3) - diffMult*2.5,
+                killTimer: 10 + (Math.random()*5) - diffMult*3,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer2")
             },
             {
-                killTimer: 10 + (Math.random()*3) - diffMult*2.5,
+                killTimer: 10 + (Math.random()*5) - diffMult*3,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer3")
             },
@@ -299,18 +305,33 @@ function ingame(dt, time) {
     playtime += dt;
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 4;
-    if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
-    if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
-    if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
-    if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
-    if (ingameTimer >= 121 && ingameTimer <= 122) {phase = 3;} else
-    if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
-    if (ingameTimer >= 161 && ingameTimer <= 162) {phase = 0;} else
-    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
-    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
-    if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
-    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
-    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
+    if (prePatch) {
+        if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
+        if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
+        if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; phase = 0} else
+        if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
+        if (ingameTimer >= 121 && ingameTimer <= 122)         {diffMult = 2.5; phase = 3;} else
+        if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
+        if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
+        if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
+        if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; phase = 2} else
+        if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; phase = 1} else
+        if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; phase = 2} else
+        if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; phase = 3}
+    } else {
+        if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
+        if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
+        if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
+        if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
+        if (ingameTimer >= 121 && ingameTimer <= 122) {phase = 3;} else
+        if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
+        if (ingameTimer >= 161 && ingameTimer <= 162) {phase = 0;} else
+        if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
+        if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
+        if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
+        if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
+        if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
+    }
     document.getElementById("fogBg").style.filter = "";
     if (phase === 1) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/100+"deg)";
@@ -421,7 +442,6 @@ function ingame(dt, time) {
     transitionOpacity -= dt / 2;
     soundVolume += dt / 2;
     shocked = false;
-    console.log(hoveringOverCams, hoveringFrame)
     if (FNATGCams) {
         if (hoveringOverCams) {
             if (!hoveringFrame) {
