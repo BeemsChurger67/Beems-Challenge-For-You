@@ -148,12 +148,23 @@ let power = 100;
 let powerDrain = 0;
 let phase = 0;
 let shocked = false;
+let playtime = 0;
+let bestRun = 0;
+let saveData = {
+    playtime: playtime,
+    bestRun: bestRun,
+}
 function ingame(dt, time) {
     if (!firstFrame[1]) {
         firstFrame[0] = false;
         firstFrame[1] = true;
         firstFrame[2] = false;
         firstFrame[3] = false;
+        saveData = {
+            playtime: playtime,
+            bestRun: bestRun,
+        }
+        localStorage.setItem("data", JSON.stringify(saveData));
         ingameTimer = 0;
         document.getElementById("prologue").style.display = "none";
         document.getElementById("ingame").style.display = "block";
@@ -249,6 +260,10 @@ function ingame(dt, time) {
             powerDrain++
         }
     }
+    if (bestRun <= ingameTimer) {
+        bestRun = ingameTimer;
+    }
+    playtime += dt;
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 4;
     if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
@@ -398,3 +413,16 @@ function update(time) {
     firstUpdateFrame = true;
     requestAnimationFrame(update);
 }
+function loadProgress() {
+    const data = JSON.parse(localStorage.getItem("data"));
+    if (data == null) return;
+    if (data.playtime != null) playtime = data.playtime;
+    if (data.bestRun != null) bestRun = data.bestRun;
+    document.getElementById("bestRun").textContent = "Best Run: " + Math.floor(bestRun) + "%";
+    const seconds = playtime % 60;
+    const minutes = playtime / 60 % 60;
+    const hours = playtime / 60 / 60;
+    document.getElementById("playtime").textContent = "Playtime: " + Math.floor(hours) + ":" + Math.floor(minutes) + (Math.floor(minutes) < 10 ? "0:" : ":") + Math.floor(seconds) + "s";
+
+}
+loadProgress();
