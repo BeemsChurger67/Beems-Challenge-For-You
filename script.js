@@ -261,7 +261,7 @@ function ingame(dt, time) {
         }
     }
     if (bestRun <= ingameTimer) {
-        bestRun = ingameTimer;
+        bestRun = (ingameTimer / 360);
     }
     playtime += dt;
     if (camsOpened) powerDrain++;
@@ -422,7 +422,7 @@ function loadProgress() {
     const seconds = playtime % 60;
     const minutes = playtime / 60 % 60;
     const hours = playtime / 60 / 60;
-    document.getElementById("playtime").textContent = "Playtime: " + Math.floor(hours) + ":" + Math.floor(minutes) + (Math.floor(minutes) < 10 ? "0:" : ":") + Math.floor(seconds) + "s";
+    document.getElementById("playtime").textContent = "Playtime: " + Math.floor(hours) + (Math.floor(minutes) < 10 ? ":0" : ":") + Math.floor(minutes) + (Math.floor(seconds) < 10 ? ":0" : ":") + Math.floor(seconds);
 
 }
 loadProgress();
