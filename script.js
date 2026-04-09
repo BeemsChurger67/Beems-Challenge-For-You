@@ -30,30 +30,37 @@ document.getElementById("settings").addEventListener("click", (e) => {
             document.getElementById("settings").style.bottom = "-52vh";
         }
     }
-    if (document.getElementById("eternalMod").checked) 
+    document.getElementById("name").textContent = "";
+    if (document.getElementById("prePatch").checked) {
+        prePatch = true;
+        document.getElementById("name").textContent = "Pre-Patch ";
+    } else {
+        prePatch = false;
+    }
+    if (document.getElementById("eternalMod").checked) {
         eternalMod = true;
-    else 
+        document.getElementById("name").textContent += "Eternal ";
+    } else {
         eternalMod = false;
+    }
     if (document.getElementById("FNATG").checked) {
         FNATGCams = true;
     } else {
         FNATGCams = false;
     }
-    if (document.getElementById("prePatch").checked) {
-        prePatch = true;
-    } else {
-        prePatch = false;
-    }
     if (document.getElementById("easyMode").checked) {
         easyMode = true;
+        document.getElementById("name").textContent += "Easy ";
     } else {
         easyMode = false;
     }
     if (document.getElementById("visibleTimers").checked) {
         visibleTimers = true;
+        document.getElementById("name").textContent += "VT ";
     } else {
         visibleTimers = false;
     }
+    document.getElementById("name").textContent += "BCFY";
 });
 document.getElementById("next").addEventListener("click", (e) => {
     document.getElementById("dialogue").textContent = dialogue[dialogueIter];
@@ -212,7 +219,6 @@ function ingame(dt, time) {
             bestRun: bestRun,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
-        ingameTimer = 0;
         document.getElementById("prologue").style.display = "none";
         document.getElementById("ingame").style.display = "block";
         for (let key in sfx) {
@@ -314,7 +320,8 @@ function ingame(dt, time) {
             cam: 5,
             element: document.getElementById("impurityBeems")
         }
-        document.getElementById("killer").textContent = "You died to " + killer;
+        document.getElementById("killer").textContent = "You died to " + killer + " | Percentage: " + (ingameTimer / 360 * 100).toFixed(2) + "%";
+        ingameTimer = 0;
     }
     killerOpacity -= dt;
     document.getElementById("killer").style.opacity = killerOpacity;
@@ -335,7 +342,7 @@ function ingame(dt, time) {
         if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
         if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; phase = 0} else
         if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
-        if (ingameTimer >= 121 && ingameTimer <= 122)         {diffMult = 2.5; phase = 3;} else
+        if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; phase = 3;} else
         if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
         if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
         if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
@@ -348,9 +355,9 @@ function ingame(dt, time) {
         if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
         if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
         if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
-        if (ingameTimer >= 121 && ingameTimer <= 122) {phase = 3;} else
+        if (ingameTimer >= 121.5 && ingameTimer <= 122.5) {phase = 3;} else
         if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
-        if (ingameTimer >= 161 && ingameTimer <= 162) {phase = 0;} else
+        if (ingameTimer >= 161 && ingameTimer <= 161.5) {phase = 0;} else
         if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
         if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
         if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
