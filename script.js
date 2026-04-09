@@ -345,6 +345,9 @@ function ingame(dt, time) {
         if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
         if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
     }
+    if (prePatch && eternalMod) {
+        diffMult = 3;
+    }
     document.getElementById("fogBg").style.filter = "";
     if (phase === 1) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/100+"deg)";
