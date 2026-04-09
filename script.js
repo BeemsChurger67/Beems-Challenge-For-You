@@ -18,6 +18,7 @@ let settingsOpened = false;
 let eternalMod = false;
 let FNATGCams = false;
 let prePatch = false;
+let easyMode = false;
 document.getElementById("settings").addEventListener("click", (e) => {
     if (e.target.id == "start") {scene = "ingame"}
     if (e.target.id == "settingsOpen") {
@@ -41,6 +42,11 @@ document.getElementById("settings").addEventListener("click", (e) => {
         prePatch = true;
     } else {
         prePatch = false;
+    }
+    if (document.getElementById("easyMode").checked) {
+        easyMode = true;
+    } else {
+        easyMode = false;
     }
 });
 document.getElementById("next").addEventListener("click", (e) => {
@@ -227,6 +233,13 @@ function ingame(dt, time) {
             diffMult = 2.2;
         } else {
             diffMult = 1;
+        }
+        if (easyMode) {
+            for (let i = 0; i<6; i++) {
+                document.getElementById("cam"+i).style.scale = 1.5;
+            } 
+            document.getElementById("openCams").style.transform = "translate(-50%,-50%) scale(1.5)";
+            diffMult -= 0.3;
         }
         doorCharacters = [
             {
