@@ -13,7 +13,30 @@ let globalVolume = 0;
 let soundVolume = globalVolume;
 for (let key in audioList) {
     sfx[key] = new Audio(audioList[key]);
-} 
+}
+let settingsOpened = false;
+let eternalMod = false;
+let FNATGCams = false;
+document.getElementById("settings").addEventListener("click", (e) => {
+    if (e.target.id == "start") {scene = "ingame"}
+    if (e.target.id == "settingsOpen") {
+        settingsOpened = !settingsOpened;
+        if (settingsOpened) {
+            document.getElementById("settings").style.bottom = "0";
+        } else {
+            document.getElementById("settings").style.bottom = "-52vh";
+        }
+    }
+    if (document.getElementById("eternalMod").checked) 
+        eternalMod = true;
+    else 
+        eternalMod = false;
+    if (document.getElementById("FNATG").checked) {
+        FNATGCams = true;
+    } else {
+        FNATGCams = false;
+    }
+});
 document.getElementById("next").addEventListener("click", (e) => {
     document.getElementById("dialogue").textContent = dialogue[dialogueIter];
     if (dialogueIter === 6) {
@@ -29,10 +52,13 @@ document.getElementById("next").addEventListener("click", (e) => {
     }
     dialogueIter++;
 });
-let eternalMod = false;
-document.getElementById("prologueHelper").addEventListener("click", () => {
-    eternalMod = true;
-    scene = "ingame";
+let hoveringOverCams = false;
+let hoveringFrame = false;
+document.getElementById("fnatgCams").addEventListener("mouseenter", (e) => {
+    hoveringOverCams = true;
+});
+document.getElementById("fnatgCams").addEventListener("mouseleave", (e) => {
+    hoveringOverCams = false;
 });
 window.addEventListener("mousedown", (e) => {
     console.log(e.target.id);
@@ -112,9 +138,9 @@ const dialogue = [
     "then you have beems",
     "theres timers on the left of the office and you gotta shock the correct cam before the timer ends and cams have to be opened",
     "then you have beems",
-    "in cam 3 if beems's left eye is bright then you need to shock him but if its the right eye dont shock him otherwise you die, he keeps progressing and becoming bigger and bigger",
+    "shock cam 3 to make him go back pretty simple",
     "then you have beems",
-    "he spawns in cam 5 and goes to 5>4>3>2>1>0 thats the order and you have to shock him. hes like impurity from FNATI but dumb",
+    "he spawns in cam 5 and goes to 5>4>3>2>1>0 thats the order and you have to shock him. hes like impurity from FNATI but dumb however he will traverse",
     "that should be it",
     "well",
     "idk bad luck beating it idk",
@@ -182,6 +208,13 @@ function ingame(dt, time) {
         phase = 0;
         doors = [false,false,false];
         camsOpened = false;
+        if (FNATGCams) {
+            document.getElementById("openCams").style.display = "none";
+            document.getElementById("fnatgCams").style.display = "block";
+        } else {
+            document.getElementById("openCams").style.display = "block";
+            document.getElementById("fnatgCams").style.display = "none";
+        }
         document.getElementById("office").style.display = "block";
         document.getElementById("cams").style.display = "none";
         if (eternalMod) {
@@ -226,17 +259,17 @@ function ingame(dt, time) {
         ];
         timerCharacters = [
             {
-                killTimer: 5 * (Math.random()*2 + 2) - (diffMult*2),
+                killTimer: 7 + (Math.random()*3) - diffMult*2,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer1")
             },
             {
-                killTimer: 5 * (Math.random()*2 + 2) / diffMult,
+                killTimer: 7 + (Math.random()*3) - diffMult*2,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer2")
             },
             {
-                killTimer: 5 * (Math.random()*2 + 2) / diffMult,
+                killTimer: 7 + (Math.random()*3) - diffMult,
                 cam: Math.round(Math.random()*5),
                 element: document.getElementById("timer3")
             },
@@ -343,7 +376,7 @@ function ingame(dt, time) {
         }
         tim.element.textContent = "CAM " + tim.cam + " | " + tim.killTimer.toFixed(2) + "s";
         if (cam == tim.cam && shocked) {
-            tim.killTimer = 5 * (Math.random()*2 + 1) / diffMult;
+            tim.killTimer = 7 + (Math.random()*3) - diffMult*2;
             tim.cam = Math.round(Math.random()*5);
         }
     }
@@ -372,6 +405,10 @@ function ingame(dt, time) {
         impurityBeems.element.style.display = "block";
         if (shocked) {
             impurityBeems.moveTimer = 0;
+            impurityBeems.cam++;
+            if (impurityBeems.cam > 5) {
+                impurityBeems.cam = 5;
+            }
         }
     } else {
         impurityBeems.element.style.display = "none";
@@ -384,6 +421,24 @@ function ingame(dt, time) {
     transitionOpacity -= dt / 2;
     soundVolume += dt / 2;
     shocked = false;
+    console.log(hoveringOverCams, hoveringFrame)
+    if (FNATGCams) {
+        if (hoveringOverCams) {
+            if (!hoveringFrame) {
+                camsOpened = !camsOpened;
+            }
+            hoveringFrame = true;
+        } else {
+            hoveringFrame = false;
+        }
+        if (camsOpened) {
+            document.getElementById("office").style.display = "none";
+            document.getElementById("cams").style.display = "block";
+        } else {
+            document.getElementById("office").style.display = "block";
+            document.getElementById("cams").style.display = "none";
+        }
+    }
 }
 let firstUpdateFrame = false;
 function update(time) {

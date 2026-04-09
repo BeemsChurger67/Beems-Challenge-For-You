@@ -276,10 +276,75 @@ body {
 }
 #stats {
     position: absolute;
-    left: 50%;
-    bottom: 10%;
-    text-align: center;
+    left: 1%;
+    bottom: 1%;
     font-size: 5vh;
     color: white;
+    transform: translate(0,0);
+}
+#settingsOpen {
+    position: absolute;
+    right: -1vh;
+    top: -8vh;
+    color: white;
+    font-size: 3vh;
+    border: solid white 1vh;
+    padding: 1vh;
+    background-color: black;
+    font-family: arcade;
+}
+#settings {
+    position:absolute;
+    right: 0;
+    bottom: -52vh;
+    width: 50vh;
+    height: 50vh;
+    background-color: black;
+    border: solid white 1vh;
+    font-size: 2vh;
+    font-family: arcade;
+    color: white;
+    padding-inline: 1vh;
+}
+#settings div {
+    display: flex;
+}
+#settingsOpen:hover {
+    scale: 1.2;
+}
+.cb {
+    appearance: none;
+    background-color: white;
+    width: 2vh;
+    height: 2vh;
+    border: none;
+}
+.cb:checked {
+    background-image: url(assets/checked.jpg);
+    background-size: 100% 100%;
+}
+#start {
+    position: absolute;
+    right: 1vh;
+    bottom: 1vh;
+    color: white;
+    font-size: 2vh;
+    border: solid white 0.5vh;
+    padding: 1vh;
+    background-color: black;
+    font-family: arcade;
+}
+#fnatgCams {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 50vw;
+    height: 10vh;
+    background-color:black;
+    opacity: 0.7;
+    color: white;
+    border-radius: 1vh;
+    text-align: center;
+    font-size: 8vh;
     transform: translate(-50%,0);
 }
