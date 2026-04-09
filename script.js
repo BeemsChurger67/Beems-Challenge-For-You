@@ -261,7 +261,7 @@ function ingame(dt, time) {
         }
     }
     if (bestRun <= ingameTimer) {
-        bestRun = (ingameTimer / 360);
+        bestRun = ingameTimer;
     }
     playtime += dt;
     if (camsOpened) powerDrain++;
@@ -418,7 +418,7 @@ function loadProgress() {
     if (data == null) return;
     if (data.playtime != null) playtime = data.playtime;
     if (data.bestRun != null) bestRun = data.bestRun;
-    document.getElementById("bestRun").textContent = "Best Run: " + Math.floor(bestRun) + "%";
+    document.getElementById("bestRun").textContent = "Best Run: " + Math.floor(bestRun / 360 * 100) + "%";
     const seconds = playtime % 60;
     const minutes = playtime / 60 % 60;
     const hours = playtime / 60 / 60;
