@@ -342,8 +342,10 @@ function ingame(dt, time) {
     playtime += dt;
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 8;
+    document.getElementById("silhouette").style.opacity = 0;
     if (eternalMod) {
         if (ingameTimer >= 300) {phase = 4} else {phase = 3};
+        document.getElementById("silhouette").style.opacity = (ingameTimer - 300) / 70;
     } else {
         if (prePatch) {
             if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
@@ -372,6 +374,8 @@ function ingame(dt, time) {
             if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
             if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
         }
+        document.getElementById("lastMinute").style.opacity = (ingameTimer - 300) / 45;
+        document.getElementById("lastMinute").textContent = Math.floor(360 - ingameTimer);
     }
     if (prePatch && eternalMod) {
         diffMult = 3;

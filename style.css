@@ -402,3 +402,26 @@ body {
     color: white;
     font-family: arcade;
 }
+#lastMinute {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 60vh;
+    color: white;
+    text-shadow: 0 0 2vh white;
+    transform: translate(-50%,-50%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+#silhouette {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 80vh;
+    height: 80vh;
+    background-image: url(assets/silhouette.png);
+    background-size: 100% 100%;
+    transform: translate(-50%,0);
+    opacity: 0.5;
+    pointer-events: none;
+}
