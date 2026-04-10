@@ -374,9 +374,9 @@ function ingame(dt, time) {
             if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
             if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
         }
-        document.getElementById("lastMinute").style.opacity = (ingameTimer - 300) / 45;
-        document.getElementById("lastMinute").textContent = Math.floor(360 - ingameTimer);
     }
+    document.getElementById("lastMinute").style.opacity = (ingameTimer - 300) / 50;
+    document.getElementById("lastMinute").textContent = Math.floor(360 - ingameTimer);
     if (prePatch && eternalMod) {
         diffMult = 3;
     }
