@@ -4,6 +4,7 @@ let transitionOpacity = 0;
 const audioList = {
     menuTheme: "assets/menuTheme.mp3",
     ingameTheme: "assets/ingameTheme.mp3",
+    eternalTheme: "assets/eternalTheme.mp3",
     electricity: "assets/electricity.mp3",
     win: "assets/win.wav",
     bonk: "assets/bonk.mp3",
@@ -234,7 +235,6 @@ function ingame(dt, time) {
         transitionOpacity = 1.1;
         soundVolume = -0.1;
         power = 100;
-        sfx.ingameTheme.play();
         phase = 0;
         doors = [false,false,false];
         camsOpened = false;
@@ -249,8 +249,10 @@ function ingame(dt, time) {
         document.getElementById("cams").style.display = "none";
         if (eternalMod) {
             diffMult = 2.2;
+            sfx.eternalTheme.play();
         } else {
             diffMult = 1;
+            sfx.ingameTheme.play();
         }
         if (easyMode) {
             for (let i = 0; i<6; i++) {
@@ -340,32 +342,36 @@ function ingame(dt, time) {
     playtime += dt;
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 8;
-    if (prePatch) {
-        if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
-        if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
-        if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; phase = 0} else
-        if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
-        if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; phase = 3;} else
-        if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
-        if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
-        if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
-        if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; phase = 2} else
-        if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; phase = 1} else
-        if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; phase = 2} else
-        if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; phase = 3}
+    if (eternalMod) {
+        if (ingameTimer >= 300) {phase = 4} else {phase = 3};
     } else {
-        if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
-        if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
-        if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
-        if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
-        if (ingameTimer >= 121.5 && ingameTimer <= 122.5) {phase = 3;} else
-        if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
-        if (ingameTimer >= 161 && ingameTimer <= 161.5) {phase = 0;} else
-        if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
-        if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
-        if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
-        if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
-        if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
+        if (prePatch) {
+            if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
+            if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
+            if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; phase = 0} else
+            if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
+            if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; phase = 3;} else
+            if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
+            if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
+            if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
+            if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; phase = 2} else
+            if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; phase = 1} else
+            if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; phase = 2} else
+            if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; phase = 3}
+        } else {
+            if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
+            if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
+            if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
+            if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
+            if (ingameTimer >= 121.5 && ingameTimer <= 122.5) {phase = 3;} else
+            if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
+            if (ingameTimer >= 161 && ingameTimer <= 161.5) {phase = 0;} else
+            if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
+            if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
+            if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
+            if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
+            if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
+        }
     }
     if (prePatch && eternalMod) {
         diffMult = 3;
@@ -401,8 +407,6 @@ function ingame(dt, time) {
     }
     if (!eternalMod) {
         diffMult += dt / 300;
-    } else {
-        phase = 4;
     }
     if (!visibleTimers) {
         if (camsOpened) {
