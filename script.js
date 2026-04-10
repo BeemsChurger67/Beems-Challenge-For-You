@@ -336,7 +336,7 @@ function ingame(dt, time) {
     }
     playtime += dt;
     if (camsOpened) powerDrain++;
-    power -= powerDrain * dt / 6;
+    power -= powerDrain * dt / 8;
     if (prePatch) {
         if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
         if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
