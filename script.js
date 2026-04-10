@@ -381,7 +381,7 @@ function ingame(dt, time) {
     } 
     if (phase === 3) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
-        document.getElementById("ingame").style.rotate = Math.random()*2-1+"deg";
+        document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
         for (let i = 1; i<4; i++) {
             document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
             document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
@@ -389,7 +389,7 @@ function ingame(dt, time) {
     }
     if (phase === 4) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
-        document.getElementById("ingame").style.rotate = Math.random()*3-1.5+"deg";
+        document.getElementById("ingame").style.rotate = Math.random()*1.5-0.75+"deg";
         document.getElementById("ingame").style.filter = "saturate(2)";
         for (let i = 1; i<4; i++) {
             document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
