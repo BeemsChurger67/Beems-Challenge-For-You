@@ -88,6 +88,9 @@ document.getElementById("fnatgCams").addEventListener("mouseleave", (e) => {
 window.addEventListener("mousedown", (e) => {
     console.log(e.target.id);
 });
+document.getElementById("maxModeCompleted").addEventListener("mousedown", (e) => {
+    location.reload();
+});
 document.getElementById("clickme").addEventListener("click", (e) => {
     requestAnimationFrame(update);
     document.getElementById("prologue").style.display = "block";
@@ -525,6 +528,20 @@ function ingame(dt, time) {
         }
     }
 }
+function win(dt) {
+    if (!firstFrame[2]) {
+        firstFrame[2] = true;
+        for (let key in sfx) {
+            sfx[key].pause();
+        }
+        document.getElementById("ingame").style.display = "none";
+        document.getElementById("win").style.display = "flex";
+        document.getElementById("maxModeName").textContent = document.getElementById("name").textContent;
+        document.getElementById("winTime").textContent = document.getElementById("playtime").textContent;
+        transitionOpacity = 1.5;
+    }
+    transitionOpacity -= dt;
+}
 let firstUpdateFrame = false;
 function update(time) {
     const dt = (time - lastTime) / 1000;
@@ -544,9 +561,7 @@ function update(time) {
         } else if (scene == "ingame") {
             ingame(dt, time);
         } else if (scene == "win") {
-            document.getElementById("ingame").style.display = "none";
-            document.getElementById("win").style.display = "block";
-            sfx.win.play();
+            win(dt);
         }
     }
     document.getElementById("transition").style.opacity = transitionOpacity;

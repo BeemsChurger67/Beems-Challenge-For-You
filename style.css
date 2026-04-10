@@ -264,16 +264,6 @@ body {
 #impurityBeems {
     background-image: url(assets/russianbeems.png);
 }
-#win {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-size: 100% 100%;
-    background-image: url(assets/YOUWIN.png);
-    display: none;
-}
 #prologueHelper {
     position: absolute;
     left: 0;
@@ -378,4 +368,37 @@ body {
     font-size: 1.5vh;
     width: 50vh;
     align-items: center;
+}
+#win {
+    display: none;
+}
+#winText {
+    position: absolute;
+    display: flex;
+    flex-direction:column;
+    gap: 10vh;
+    left: 50%;
+    align-items: center;
+    top: 50%;
+    overflow-y: scroll;
+    height: 50vh;
+    width: 50vh;
+    transform: translate(-50%,-50%);
+    padding: 4vh;
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    text-shadow: 0 0 1vh white;
+    box-shadow: 0 0 5vh gray;
+    border-radius: 3vh;
+}
+#beemsWin {
+    width: 30vh;
+    height: 30vh;
+}
+#maxModeCompleted {
+    border: solid white 0.5vh;
+    padding: 1vh 2vh;
+    background-color: black;
+    color: white;
+    font-family: arcade;
 }
