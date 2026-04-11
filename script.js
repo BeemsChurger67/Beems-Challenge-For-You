@@ -129,7 +129,7 @@ document.getElementById("shockButton").addEventListener("mousedown", () => {
     sfx.electricity.currentTime = 0;
     sfx.electricity.play();
     transitionOpacity = 0.5;
-    power -= 0.15;
+    power -= 0.1;
     shocked = true;
 });
 document.getElementById("openCams").addEventListener("mousedown", () => {
