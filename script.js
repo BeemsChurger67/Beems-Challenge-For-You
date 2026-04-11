@@ -205,9 +205,13 @@ let phase = 0;
 let shocked = false;
 let playtime = 0;
 let bestRun = 0;
+let eternalBest = 0;
+let ppBest = 0;
 let saveData = {
     playtime: playtime,
     bestRun: bestRun,
+    eternalBest: eternalBest,
+    ppBest: ppBest,
 }
 let killerOpacity = 1.5;
 let killer = "nobody lol";
@@ -221,6 +225,8 @@ function ingame(dt, time) {
         saveData = {
             playtime: playtime,
             bestRun: bestRun,
+            eternalBest: eternalBest,
+            ppBest: ppBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         document.getElementById("prologue").style.display = "none";
@@ -336,7 +342,13 @@ function ingame(dt, time) {
             powerDrain++
         }
     }
-    if (bestRun <= ingameTimer) {
+    if (ppBest <= ingameTimer && prePatch && !easyMode) {
+        ppBest = ingameTimer;
+    }
+    if (eternalBest <= ingameTimer && eternalMod && !easyMode) {
+        eternalBest = ingameTimer;
+    }
+    if (bestRun <= ingameTimer && !easyMode) {
         bestRun = ingameTimer;
     }
     playtime += dt;
@@ -426,6 +438,12 @@ function ingame(dt, time) {
     document.getElementById("difficulty").textContent = "Difficulty: " + diffMult.toFixed(2) + "x";
     ingameTimer += dt;
     if (ingameTimer >= 360) {
+        saveData = {
+            playtime: playtime,
+            bestRun: bestRun,
+            eternalBest: eternalBest,
+            ppBest: ppBest,
+        }
         scene = "win";
     }
     if (power <= 0) {
@@ -581,7 +599,11 @@ function loadProgress() {
     if (data == null) return;
     if (data.playtime != null) playtime = data.playtime;
     if (data.bestRun != null) bestRun = data.bestRun;
-    document.getElementById("bestRun").textContent = "Best Run: " + Math.floor(bestRun / 360 * 100) + "%";
+    if (data.eternalBest != null) eternalBest = data.eternalBest;
+    if (data.ppBest != null) ppBest = data.ppBest;
+    document.getElementById("normalBestRun").textContent = "BCFY: " + Math.floor(bestRun / 360 * 100) + "%";
+    document.getElementById("prePatchBest").textContent = "Pre-Patch: " + Math.floor(ppBest / 360 * 100) + "%";
+    document.getElementById("eternalBest").textContent = "Eternal: " + Math.floor(eternalBest / 360 * 100) + "%";
     const seconds = playtime % 60;
     const minutes = playtime / 60 % 60;
     const hours = playtime / 60 / 60;
