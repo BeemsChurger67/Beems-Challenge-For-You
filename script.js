@@ -256,6 +256,7 @@ function ingame(dt, time) {
         if (eternalMod) {
             diffMult = 2.2;
             sfx.eternalTheme.play();
+            power = 150;
         } else {
             diffMult = 1;
             sfx.ingameTheme.play();
