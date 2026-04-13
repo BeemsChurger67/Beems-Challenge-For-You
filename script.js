@@ -5,6 +5,7 @@ const audioList = {
     menuTheme: "assets/menuTheme.mp3",
     ingameTheme: "assets/ingameTheme.mp3",
     eternalTheme: "assets/eternalTheme.mp3",
+    silentBeemathon: "assets/silentBeemathon.mp3",
     electricity: "assets/electricity.mp3",
     win: "assets/win.wav",
     bonk: "assets/bonk.mp3",
@@ -286,7 +287,9 @@ function ingame(dt, time) {
         document.getElementById("cams").style.display = "none";
 
         if (silentBeemathon) {
-            diffMult = 1.25;
+            diffMult = 1.6;
+            sfx.silentBeemathon.play();
+            document.getElementById("ingame").style.filter = "saturate(2) grayscale(1) contrast(2)"
         } else {
             if (eternalMod) {
                 diffMult = 2.2;
@@ -394,51 +397,70 @@ function ingame(dt, time) {
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 8;
     document.getElementById("silhouette").style.opacity = 0;
-    if (eternalMod) {
-        if (ingameTimer >= 300) {phase = 4} else {phase = 3};
-        document.getElementById("silhouette").style.opacity = (ingameTimer - 300) / 70;
-    } else {
-        if (prePatch) {
-            if (easyMode) {
-                if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; diffMult-=0.3; phase = 1 } else
-                if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; diffMult-=0.3; phase = 2} else
-                if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; diffMult-=0.3; phase = 0} else
-                if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; diffMult-=0.3; phase = 1;} else
-                if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; diffMult-=0.3; phase = 3;} else
-                if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; diffMult-=0.3; phase = 2;} else
-                if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; diffMult-=0.3; phase = 0;} else
-                if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; diffMult-=0.3; phase = 1} else
-                if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; diffMult-=0.3; phase = 2} else
-                if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; diffMult-=0.3; phase = 1} else
-                if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; diffMult-=0.3; phase = 2} else
-                if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; diffMult-=0.3; phase = 3}
-            } else {
-                if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
-                if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
-                if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; phase = 0} else
-                if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
-                if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; phase = 3;} else
-                if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
-                if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
-                if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
-                if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; phase = 2} else
-                if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; phase = 1} else
-                if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; phase = 2} else
-                if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; phase = 3}
-            }
+    if (!silentBeemathon) {
+        if (eternalMod) {
+            if (ingameTimer >= 300) {phase = 4} else {phase = 3};
+            document.getElementById("silhouette").style.opacity = (ingameTimer - 300) / 70;
         } else {
-            if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
-            if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
-            if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
-            if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
-            if (ingameTimer >= 121.5 && ingameTimer <= 122.5) {phase = 3;} else
-            if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
-            if (ingameTimer >= 161 && ingameTimer <= 161.5) {phase = 0;} else
-            if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
-            if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
-            if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
-            if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
-            if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
+            if (prePatch) {
+                if (easyMode) {
+                    if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; diffMult-=0.3; phase = 1 } else
+                    if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; diffMult-=0.3; phase = 2} else
+                    if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; diffMult-=0.3; phase = 0} else
+                    if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; diffMult-=0.3; phase = 1;} else
+                    if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; diffMult-=0.3; phase = 3;} else
+                    if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; diffMult-=0.3; phase = 2;} else
+                    if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; diffMult-=0.3; phase = 0;} else
+                    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; diffMult-=0.3; phase = 1} else
+                    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; diffMult-=0.3; phase = 2} else
+                    if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; diffMult-=0.3; phase = 1} else
+                    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; diffMult-=0.3; phase = 2} else
+                    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; diffMult-=0.3; phase = 3}
+                } else {
+                    if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
+                    if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
+                    if (ingameTimer >= 81 && ingameTimer <= 82)           {diffMult = 1; phase = 0} else
+                    if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
+                    if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; phase = 3;} else
+                    if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
+                    if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
+                    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
+                    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; phase = 2} else
+                    if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; phase = 1} else
+                    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; phase = 2} else
+                    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; phase = 3}
+                }
+            } else {
+                if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
+                if (ingameTimer >= 40.5 && ingameTimer <= 41) {phase = 2} else
+                if (ingameTimer >= 81 && ingameTimer <= 82) {phase = 0} else
+                if (ingameTimer >= 101 && ingameTimer <= 102) {phase = 1;} else
+                if (ingameTimer >= 121.5 && ingameTimer <= 122.5) {phase = 3;} else
+                if (ingameTimer >= 141 && ingameTimer <= 142) {phase = 2;} else
+                if (ingameTimer >= 161 && ingameTimer <= 161.5) {phase = 0;} else
+                if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {phase = 1} else
+                if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {phase = 2} else
+                if (ingameTimer >= 81+161 && ingameTimer <= 82+161) {phase = 1} else
+                if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {phase = 2} else
+                if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {phase = 3}
+            }
+        }
+    } else {
+        if (ingameTimer / 360 >= 0.2 && ingameTimer / 360 <= 0.22) {
+            phase = 1;
+            diffMult = 1.7;
+        }
+        if (ingameTimer / 360 >= 0.4 && ingameTimer / 360 <= 0.42) {
+            phase = 2;
+            diffMult = 1.8;
+        }
+        if (ingameTimer / 360 >= 0.6 && ingameTimer / 360 <= 0.62) {
+            phase = 3;
+            diffMult = 1.9;
+        }
+        if (ingameTimer / 360 >= 0.8 && ingameTimer / 360 <= 0.82) {
+            phase = 4;
+            diffMult = 2.2;
         }
     }
     document.getElementById("lastMinute").style.opacity = (ingameTimer - 300) / 50;
@@ -457,14 +479,23 @@ function ingame(dt, time) {
     document.getElementById("fogBg").style.filter = "";
     if (phase === 1) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/100+"deg)";
+        if (silentBeemathon) {
+            document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2)";
+        }
     }
     if (phase === 2) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/33+"deg)";
         document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
+        if (silentBeemathon) {
+            document.getElementById("ingame").style.filter = "saturate(2.4) grayscale(1) contrast(2.4)";
+        }
     } 
     if (phase === 3) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
         document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
+        if (silentBeemathon) {
+            document.getElementById("ingame").style.filter = "saturate(2.6) grayscale(1) contrast(2.6)";
+        }
         for (let i = 1; i<4; i++) {
             document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
             document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
@@ -473,13 +504,17 @@ function ingame(dt, time) {
     if (phase === 4) {
         document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
         document.getElementById("ingame").style.rotate = Math.random()*1.5-0.75+"deg";
-        document.getElementById("ingame").style.filter = "saturate(2)";
+        if (silentBeemathon) {
+            document.getElementById("ingame").style.filter = "saturate(3) grayscale(1) contrast(3)";
+        } else {
+            document.getElementById("ingame").style.filter = "saturate(2)";
+        }
         for (let i = 1; i<4; i++) {
-            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
-            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 12.5 + "vh";
         }
     }
-    if (!eternalMod) {
+    if (!eternalMod || !silentBeemathon) {
         diffMult += dt / 300;
     }
     if (!visibleTimers) {
@@ -544,7 +579,7 @@ function ingame(dt, time) {
         tim.element.textContent = "CAM " + tim.cam + " | " + tim.killTimer.toFixed(2) + "s";
         if (cam == tim.cam && shocked) {
             if (silentBeemathon) {
-                tim.killTimer = 5 - diffMult;
+                tim.killTimer = 7 - diffMult;
             } else {
                 if (prePatch) {
                     tim.killTimer = 7 + (Math.random()*3) - diffMult*2;
