@@ -298,9 +298,6 @@ function ingame(dt, time) {
             if (eternalMod) {
                 diffMult = 2.2;
                 sfx.eternalTheme.play();
-                if (!easyMode) {
-                    power = 150;
-                }
             } else {
                 diffMult = 1;
                 sfx.ingameTheme.play();
