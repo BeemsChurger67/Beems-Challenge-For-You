@@ -529,7 +529,7 @@ function ingame(dt, time) {
             document.getElementById("fog"+i).style.backgroundPositionY = time * i / 12.5 + "vh";
         }
     }
-    if (!eternalMod || !silentBeemathon) {
+    if (!eternalMod && !silentBeemathon) {
         diffMult += dt / 300;
     }
     if (!visibleTimers) {
