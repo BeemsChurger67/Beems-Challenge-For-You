@@ -9,6 +9,8 @@ const audioList = {
     electricity: "assets/electricity.mp3",
     win: "assets/win.wav",
     bonk: "assets/bonk.mp3",
+    tick1: "assets/tick1.mp3",
+    tick2: "assets/tick2.mp3",
 }
 let sfx = {};
 let globalVolume = 0;
@@ -247,6 +249,7 @@ let saveData = {
 }
 let killerOpacity = 1.5;
 let killer = "nobody lol";
+let silentBeemathonTicks = [false,false,false,false];
 function ingame(dt, time) {
     if (!firstFrame[1]) {
         killerOpacity = 1.5;
@@ -276,6 +279,7 @@ function ingame(dt, time) {
         phase = 0;
         doors = [false,false,false];
         camsOpened = false;
+        silentBeemathonTicks = [false,false,false,false];
         if (FNATGCams) {
             document.getElementById("openCams").style.display = "none";
             document.getElementById("fnatgCams").style.display = "block";
@@ -446,21 +450,35 @@ function ingame(dt, time) {
             }
         }
     } else {
-        if (ingameTimer / 360 >= 0.2 && ingameTimer / 360 <= 0.22) {
+        if (ingameTimer / 360 >= 0.2 && !silentBeemathonTicks[0]) {
             phase = 1;
             diffMult = 1.7;
+            silentBeemathonTicks[0] = true;
+            transitionOpacity = 1;
+            sfx.tick1.play();
         }
-        if (ingameTimer / 360 >= 0.4 && ingameTimer / 360 <= 0.42) {
+        if (ingameTimer / 360 >= 0.4 && !silentBeemathonTicks[1]) {
             phase = 2;
             diffMult = 1.8;
+            silentBeemathonTicks[1] = true;
+            transitionOpacity = 1;
+            sfx.tick2.play();
+            
         }
-        if (ingameTimer / 360 >= 0.6 && ingameTimer / 360 <= 0.62) {
+        if (ingameTimer / 360 >= 0.6 && !silentBeemathonTicks[2]) {
             phase = 3;
             diffMult = 1.9;
+            silentBeemathonTicks[2] = true;
+            transitionOpacity = 1;
+            sfx.tick1.play();
         }
-        if (ingameTimer / 360 >= 0.8 && ingameTimer / 360 <= 0.82) {
+        if (ingameTimer / 360 >= 0.8 && !silentBeemathonTicks[3]) {
             phase = 4;
             diffMult = 2.2;
+            silentBeemathonTicks[3] = true;
+            transitionOpacity = 1;
+            sfx.tick2.play();
+            sfx.tick1.play();
         }
     }
     document.getElementById("lastMinute").style.opacity = (ingameTimer - 300) / 50;
