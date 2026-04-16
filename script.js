@@ -25,6 +25,7 @@ let prePatch = false;
 let easyMode = false;
 let visibleTimers = false;
 let silentBeemathon = false;
+let speedhack = 1;
 document.getElementById("settings").addEventListener("click", (e) => {
     if (e.target.id == "start") {scene = "ingame"}
     if (e.target.id == "settingsOpen") {
@@ -289,7 +290,7 @@ function ingame(dt, time) {
         }
         document.getElementById("office").style.display = "block";
         document.getElementById("cams").style.display = "none";
-
+        speedhack = document.getElementById("speedhack").value;
         if (silentBeemathon) {
             diffMult = 1.6;
             sfx.silentBeemathon.play();
@@ -682,7 +683,7 @@ function win(dt) {
 }
 let firstUpdateFrame = false;
 function update(time) {
-    const dt = (time - lastTime) / 1000;
+    const dt = (time - lastTime) / 1000 * speedhack;
     lastTime = time;
     if (firstUpdateFrame) {
         globalVolume = soundVolume;

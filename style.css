@@ -457,3 +457,10 @@ body {
     -webkit-text-fill-color: transparent;
     display: inline-block;
 }
+#speedhack {
+    appearance: none;
+    width: 5vh;
+    height: 2vh;
+    font-size: 1.5vh;
+    border: none;
+}
