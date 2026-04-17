@@ -36,69 +36,87 @@ let tasStats = {
     cams: [0,0,0],
     mission: "openCams",
 }
+let bonusMode = false;
 document.getElementById("modesDiv").addEventListener("click", (e) => {
     if (e.target.id == "silentBeemathon") {
         scene = "ingame";
         prePatch = false;
         eternalMod = false;
+        easyMode = false;
         speedhack = 1;
         visibleTimers = false;
         FNATGCams = false;
         silentBeemathon = true;
+        bonusMode = true;
         document.getElementById("name").textContent = "Silent Beemathon";
     }
     if (e.target.id == "beemsNeverClear") {
         scene = "ingame";
         prePatch = false;
         eternalMod = false;
+        easyMode = false;
         speedhack = 1;
         visibleTimers = false;
         FNATGCams = false;
         beemsNeverClear = true;
+        bonusMode = true;
         document.getElementById("name").textContent = "BEEMS NEVER CLEAR";
+    }
+    if (e.target.id == "EEBCFY") {
+        scene = "ingame";
+        prePatch = false;
+        eternalMod = true;
+        easyMode = true;
+        speedhack = 1;
+        visibleTimers = false;
+        FNATGCams = false;
+        bonusMode = true;
+        document.getElementById("name").textContent = "Eternal Easy Beems's Challenge For You";
     }
 });
 document.getElementById("settings").addEventListener("click", (e) => {
-    if (e.target.id == "start") {scene = "ingame"}
-    if (e.target.id == "settingsOpen") {
-        settingsOpened = !settingsOpened;
-        if (settingsOpened) {
-            document.getElementById("settings").style.bottom = "0";
-        } else {
-            document.getElementById("settings").style.bottom = "-52vh";
+    if (!bonusMode) {
+        if (e.target.id == "start") {scene = "ingame"}
+        if (e.target.id == "settingsOpen") {
+            settingsOpened = !settingsOpened;
+            if (settingsOpened) {
+                document.getElementById("settings").style.bottom = "0";
+            } else {
+                document.getElementById("settings").style.bottom = "-52vh";
+            }
         }
+        document.getElementById("name").textContent = "";
+        if (document.getElementById("prePatch").checked) {
+            prePatch = true;
+            document.getElementById("name").textContent = "Pre-Patch ";
+        } else {
+            prePatch = false;
+        }
+        if (document.getElementById("eternalMod").checked) {
+            eternalMod = true;
+            document.getElementById("name").textContent += "Eternal ";
+        } else {
+            eternalMod = false;
+        }
+        if (document.getElementById("FNATG").checked) {
+            FNATGCams = true;
+        } else {
+            FNATGCams = false;
+        }
+        if (document.getElementById("easyMode").checked) {
+            easyMode = true;
+            document.getElementById("name").textContent += "Easy ";
+        } else {
+            easyMode = false;
+        }
+        if (document.getElementById("visibleTimers").checked) {
+            visibleTimers = true;
+            document.getElementById("name").textContent += "VT ";
+        } else {
+            visibleTimers = false;
+        }
+        document.getElementById("name").textContent += "Beems's Challenge For You";
     }
-    document.getElementById("name").textContent = "";
-    if (document.getElementById("prePatch").checked) {
-        prePatch = true;
-        document.getElementById("name").textContent = "Pre-Patch ";
-    } else {
-        prePatch = false;
-    }
-    if (document.getElementById("eternalMod").checked) {
-        eternalMod = true;
-        document.getElementById("name").textContent += "Eternal ";
-    } else {
-        eternalMod = false;
-    }
-    if (document.getElementById("FNATG").checked) {
-        FNATGCams = true;
-    } else {
-        FNATGCams = false;
-    }
-    if (document.getElementById("easyMode").checked) {
-        easyMode = true;
-        document.getElementById("name").textContent += "Easy ";
-    } else {
-        easyMode = false;
-    }
-    if (document.getElementById("visibleTimers").checked) {
-        visibleTimers = true;
-        document.getElementById("name").textContent += "VT ";
-    } else {
-        visibleTimers = false;
-    }
-    document.getElementById("name").textContent += "Beems's Challenge For You";
 });
 document.getElementById("next").addEventListener("click", (e) => {
     document.getElementById("dialogue").textContent = dialogue[dialogueIter];
@@ -527,8 +545,10 @@ function ingame(dt, time) {
             sfx.tick1.play();
         }
     }
-    if (beemsNeverClear) {
-        document.getElementById("lastMinute").style.opacity = (ingameTimer - nightLength-60) / 50;
+    if (!beemsNeverClear) {
+        console.log(ingameTimer, nightLength);
+        console.log((ingameTimer - nightLength+60) / 50);
+        document.getElementById("lastMinute").style.opacity = (ingameTimer - nightLength+60) / 50;
         document.getElementById("lastMinute").textContent = Math.floor(nightLength - ingameTimer);
     }
     if (prePatch && eternalMod) {

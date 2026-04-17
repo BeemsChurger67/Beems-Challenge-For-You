@@ -469,6 +469,13 @@ body {
     text-shadow: 0 0 1vh blueviolet;
     font-size: 3vh;
 }
+#EEBCFY {
+    background-image: linear-gradient(180deg, #77a2ff 40%, #ffffff 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
 #speedhack {
     appearance: none;
     width: 5vh;
@@ -488,7 +495,7 @@ body {
 }
 .extraMode {
     margin-top: -0.6vh;
-    margin-bottom: -0.6vh;
+    margin-bottom: 1vh;
 }
 .extraMode:hover {
     transform: translate(5%,0) scale(1.1);
