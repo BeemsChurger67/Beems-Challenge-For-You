@@ -449,21 +449,27 @@ function ingame(dt, time) {
     document.getElementById("silhouette").style.opacity = 0;
     if (beemsNeverClear) {
         document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2) brightness(0.5)";
+        console.log(ingameTimer);
         if (ingameTimer >= 10.4) {
             diffMult = 2.5;
             document.getElementById("ingame").style.filter = "url(#redFilter)";
             document.getElementById("transition").style.opacity = Math.random() / 10;
             phase = 3;
-        } else if (ingameTimer >= 31) {
-            speedhack = 0;
-        } else if (ingameTimer >= 31.6) {
+        }
+        if (ingameTimer >= 31) {
+            document.getElementById("ingame").style.filter = "contrast(2.2) saturate(2.2)";
+        }
+        if (ingameTimer >= 31.6) {
             document.getElementById("ingame").style.filter = "url(#redFilter) url(#waveFilter)";
             speedhack = 1;
             diffMult = 2.7;
             document.getElementById("wfTurb").setAttribute("seed", Math.round(Math.random() * 1000));
             phase = 4;
-        } else if (ingameTimer >= 50) {
-            
+        }
+        if (ingameTimer >= 51.9) {
+            transitionOpacity = 1;
+            document.getElementById("ingame").style.filter = "";
+            diffMult = 1.5;
         }
     } else if (!silentBeemathon) {
         if (eternalMod) {
