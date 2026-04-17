@@ -6,6 +6,7 @@ const audioList = {
     ingameTheme: "assets/ingameTheme.mp3",
     eternalTheme: "assets/eternalTheme.mp3",
     silentBeemathon: "assets/silentBeemathon.mp3",
+    beemsNeverClear: "assets/beemsNeverClear.mp3",
     electricity: "assets/electricity.mp3",
     win: "assets/win.wav",
     bonk: "assets/bonk.mp3",
@@ -25,7 +26,38 @@ let prePatch = false;
 let easyMode = false;
 let visibleTimers = false;
 let silentBeemathon = false;
+let beemsNeverClear = false;
 let speedhack = 1;
+let tas = false;
+let tasStats = {
+    x: 50,
+    y: 50,
+    camOrder: [false,false,false],
+    cams: [0,0,0],
+    mission: "openCams",
+}
+document.getElementById("modesDiv").addEventListener("click", (e) => {
+    if (e.target.id == "silentBeemathon") {
+        scene = "ingame";
+        prePatch = false;
+        eternalMod = false;
+        speedhack = 1;
+        visibleTimers = false;
+        FNATGCams = false;
+        silentBeemathon = true;
+        document.getElementById("name").textContent = "Silent Beemathon";
+    }
+    if (e.target.id == "beemsNeverClear") {
+        scene = "ingame";
+        prePatch = false;
+        eternalMod = false;
+        speedhack = 1;
+        visibleTimers = false;
+        FNATGCams = false;
+        beemsNeverClear = true;
+        document.getElementById("name").textContent = "BEEMS NEVER CLEAR";
+    }
+});
 document.getElementById("settings").addEventListener("click", (e) => {
     if (e.target.id == "start") {scene = "ingame"}
     if (e.target.id == "settingsOpen") {
@@ -66,32 +98,11 @@ document.getElementById("settings").addEventListener("click", (e) => {
     } else {
         visibleTimers = false;
     }
-    if (document.getElementById("silentBeemathon").checked) {
-        silentBeemathon = true;
-        eternalMod = false;
-        visibleTimers = false;
-        easyMode = false;
-        FNATGCams = false;
-        prePatch = false;
-        document.getElementById("name").textContent = "Silent Beemathon";
-        document.getElementById("prologue").style.filter = "saturate(2) grayscale(1) contrast(2)";
-        document.getElementById("otherSettings").style.display = "none";
-        sfx.menuTheme.pause();
-        document.getElementById("next").style.display = "none";
-        document.getElementById("dialogue").textContent = "..."
-    } else {
-        document.getElementById("next").style.display = "inline-block";
-        document.getElementById("dialogue").textContent = dialogue[dialogueIter];
-        sfx.menuTheme.play();
-        document.getElementById("otherSettings").style.display = "flex";
-        document.getElementById("prologue").style.filter = "";
-        silentBeemathon = false;
-        document.getElementById("name").textContent += "BCFY";
-    }
+    document.getElementById("name").textContent += "Beems's Challenge For You";
 });
 document.getElementById("next").addEventListener("click", (e) => {
     document.getElementById("dialogue").textContent = dialogue[dialogueIter];
-    if (dialogueIter === 6) {
+    if (dialogueIter === 7) {
         document.getElementById("BCFYText").style.display = "block";
         transitionOpacity = 1;
         document.getElementById("prologue").style.filter = "url(#red)";
@@ -242,15 +253,24 @@ let playtime = 0;
 let bestRun = 0;
 let eternalBest = 0;
 let ppBest = 0;
+let BNCBest = 0;
 let saveData = {
     playtime: playtime,
     bestRun: bestRun,
     eternalBest: eternalBest,
     ppBest: ppBest,
+    BNCBest: BNCBest,
+}
+function tasCollide(rect1, rect2) {
+    return rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.y + rect1.height > rect2.y 
 }
 let killerOpacity = 1.5;
 let killer = "nobody lol";
 let silentBeemathonTicks = [false,false,false,false];
+let nightLength = 360;
 function ingame(dt, time) {
     if (!firstFrame[1]) {
         killerOpacity = 1.5;
@@ -263,6 +283,7 @@ function ingame(dt, time) {
             bestRun: bestRun,
             eternalBest: eternalBest,
             ppBest: ppBest,
+            BNCBest: BNCBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         document.getElementById("prologue").style.display = "none";
@@ -295,6 +316,12 @@ function ingame(dt, time) {
             diffMult = 1.6;
             sfx.silentBeemathon.play();
             document.getElementById("ingame").style.filter = "saturate(2) grayscale(1) contrast(2)"
+        } else if (beemsNeverClear) {
+            diffMult = 2;
+            sfx.beemsNeverClear.play();
+            nightLength = 72;
+            power = 25;
+            document.getElementById("lastMinute").style.display = "none";
         } else {
             if (eternalMod) {
                 diffMult = 2.2;
@@ -375,17 +402,11 @@ function ingame(dt, time) {
             cam: 5,
             element: document.getElementById("impurityBeems")
         }
-        document.getElementById("killer").textContent = "You died to " + killer + " | Percentage: " + (ingameTimer / 360 * 100).toFixed(2) + "%";
+        document.getElementById("killer").textContent = "You died to " + killer + " | Percentage: " + (ingameTimer / nightLength * 100).toFixed(2) + "%";
         ingameTimer = 0;
     }
     killerOpacity -= dt;
     document.getElementById("killer").style.opacity = killerOpacity;
-    powerDrain = 0;
-    for (let i = 0; i<doors.length; i++) {
-        if (doors[i]) {
-            powerDrain++
-        }
-    }
     if (ppBest <= ingameTimer && prePatch && !easyMode) {
         ppBest = ingameTimer;
     }
@@ -395,11 +416,38 @@ function ingame(dt, time) {
     if (bestRun <= ingameTimer && !easyMode) {
         bestRun = ingameTimer;
     }
+    if (BNCBest <= ingameTimer && beemsNeverClear) {
+        BNCBest = ingameTimer;
+    }
     playtime += dt;
+    powerDrain = 0;
+    for (let i = 0; i<doors.length; i++) {
+        if (doors[i]) {
+            powerDrain++
+        }
+    }
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 8;
     document.getElementById("silhouette").style.opacity = 0;
-    if (!silentBeemathon) {
+    if (beemsNeverClear) {
+        document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2) brightness(0.5)";
+        if (ingameTimer >= 10.4) {
+            diffMult = 2.5;
+            document.getElementById("ingame").style.filter = "url(#redFilter)";
+            document.getElementById("transition").style.opacity = Math.random() / 10;
+            phase = 3;
+        } else if (ingameTimer >= 31) {
+            speedhack = 0;
+        } else if (ingameTimer >= 31.6) {
+            document.getElementById("ingame").style.filter = "url(#redFilter) url(#waveFilter)";
+            speedhack = 1;
+            diffMult = 2.7;
+            document.getElementById("wfTurb").setAttribute("seed", Math.round(Math.random() * 1000));
+            phase = 4;
+        } else if (ingameTimer >= 50) {
+            
+        }
+    } else if (!silentBeemathon) {
         if (eternalMod) {
             if (ingameTimer >= 300) {phase = 4} else {phase = 3};
             document.getElementById("silhouette").style.opacity = (ingameTimer - 300) / 70;
@@ -448,14 +496,14 @@ function ingame(dt, time) {
             }
         }
     } else {
-        if (ingameTimer / 360 >= 0.2 && !silentBeemathonTicks[0]) {
+        if (ingameTimer / nightLength >= 0.2 && !silentBeemathonTicks[0]) {
             phase = 1;
             diffMult = 1.7;
             silentBeemathonTicks[0] = true;
             transitionOpacity = 1;
             sfx.tick1.play();
         }
-        if (ingameTimer / 360 >= 0.4 && !silentBeemathonTicks[1]) {
+        if (ingameTimer / nightLength >= 0.4 && !silentBeemathonTicks[1]) {
             phase = 2;
             diffMult = 1.8;
             silentBeemathonTicks[1] = true;
@@ -463,14 +511,14 @@ function ingame(dt, time) {
             sfx.tick2.play();
             
         }
-        if (ingameTimer / 360 >= 0.6 && !silentBeemathonTicks[2]) {
+        if (ingameTimer / nightLength >= 0.6 && !silentBeemathonTicks[2]) {
             phase = 3;
             diffMult = 1.9;
             silentBeemathonTicks[2] = true;
             transitionOpacity = 1;
             sfx.tick1.play();
         }
-        if (ingameTimer / 360 >= 0.8 && !silentBeemathonTicks[3]) {
+        if (ingameTimer / nightLength >= 0.8 && !silentBeemathonTicks[3]) {
             phase = 4;
             diffMult = 2.2;
             silentBeemathonTicks[3] = true;
@@ -479,8 +527,10 @@ function ingame(dt, time) {
             sfx.tick1.play();
         }
     }
-    document.getElementById("lastMinute").style.opacity = (ingameTimer - 300) / 50;
-    document.getElementById("lastMinute").textContent = Math.floor(360 - ingameTimer);
+    if (beemsNeverClear) {
+        document.getElementById("lastMinute").style.opacity = (ingameTimer - nightLength-60) / 50;
+        document.getElementById("lastMinute").textContent = Math.floor(nightLength - ingameTimer);
+    }
     if (prePatch && eternalMod) {
         if (easyMode) {
             diffMult = 2.7;
@@ -542,16 +592,17 @@ function ingame(dt, time) {
     } else {
         document.getElementById("leftCharacters").style.display = "block";
     }
-    document.getElementById("timer").textContent = "Percentage: " + Math.floor(ingameTimer / 360 * 100) + "%";
+    document.getElementById("timer").textContent = "Percentage: " + Math.floor(ingameTimer / nightLength * 100) + "%";
     document.getElementById("power").textContent = "Power: " + power.toFixed(1) + "%";
     document.getElementById("difficulty").textContent = "Difficulty: " + diffMult.toFixed(2) + "x";
     ingameTimer += dt;
-    if (ingameTimer >= 360) {
+    if (ingameTimer >= nightLength) {
         saveData = {
             playtime: playtime,
             bestRun: bestRun,
             eternalBest: eternalBest,
             ppBest: ppBest,
+            BNCBest: BNCBest,
         }
         scene = "win";
     }
@@ -714,6 +765,8 @@ function loadProgress() {
     if (data.bestRun != null) bestRun = data.bestRun;
     if (data.eternalBest != null) eternalBest = data.eternalBest;
     if (data.ppBest != null) ppBest = data.ppBest;
+    if (data.BNCBest != null) BNCBest = data.BNCBest;
+    document.getElementById("BNCBestRun").textContent = "BNC: " + Math.floor(BNCBest / 72 * 100) + "%";
     document.getElementById("normalBestRun").textContent = "BCFY: " + Math.floor(bestRun / 360 * 100) + "%";
     document.getElementById("prePatchBest").textContent = "Pre-Patch: " + Math.floor(ppBest / 360 * 100) + "%";
     document.getElementById("eternalBest").textContent = "Eternal: " + Math.floor(eternalBest / 360 * 100) + "%";

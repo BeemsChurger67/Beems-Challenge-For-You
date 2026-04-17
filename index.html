@@ -10,6 +10,22 @@
         <link rel="shortcut icon" href="assets/beemsFavicon.png" type="image/x-icon">
     </head>
     <body>
+        <svg>
+            <filter id="redFilter"
+        filterUnits="userSpaceOnUse"
+        primitiveUnits="userSpaceOnUse"
+        x="0" y="0" width="100%" height="100%">
+                <feColorMatrix type="matrix" values="
+            1 1 0 0 0
+            0 0 0 0 0
+            0 0 0 0 0
+            0 0 0 1 0" x="0%" y="0%" width="100vw" height="100vh" in="SourceGraphic" result="colormatrix"/>
+            </filter>
+            <filter id="waveFilter" color-interpolation-filters="linearRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+                <feTurbulence id="wfTurb" type="turbulence" baseFrequency="0.07 0.07" numOctaves="2" seed="261" stitchTiles="noStitch" result="turbulence"/>
+                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
+            </filter>
+        </svg>
         <div id="interact">
             <div id="clickme">Click Me</div>
         </div>
@@ -32,6 +48,7 @@
             </div>
             <div id="vignette"></div>
             <div id="stats">
+                <div id="BNCBestRun">BNC: 0%</div>
                 <div id="eternalBest">Eternal: 0%</div>
                 <div id="prePatchBest">Pre-Patch: 0%</div>
                 <div id="normalBestRun">Best Run: 0%</div>
@@ -39,15 +56,19 @@
             </div>
             <div id="settings">
                 <button id="settingsOpen">settings</button>
-                <div id="otherSettings">
-                    <div>Eternal Mod <input id="eternalMod" class="cb" type="checkbox"></div>
-                    <div>Pre Patch (impossible) <input id="prePatch" class="cb" type="checkbox"></div>
-                    <div>Easy Mode <input id="easyMode" class="cb" type="checkbox"></div>
-                    <div>Visible Timers (nerf) <input id="visibleTimers" class="cb" type="checkbox"></div>
-                    <div>FNATG Cams (not legit)<input id="FNATG" class="cb" type="checkbox"></div>
-                    <div>Speedhack <input id="speedhack" type="number" value="1">.(not legit)</div>
+                <div class="title">Challenges</div>
+                <div>Eternal Mod <input id="eternalMod" class="cb" type="checkbox"></div>
+                <div class="title">Other stuff</div>
+                <div>Pre Patch (impossible) <input id="prePatch" class="cb" type="checkbox"></div>
+                <div>Easy Mode <input id="easyMode" class="cb" type="checkbox"></div>
+                <div>Visible Timers (nerf) <input id="visibleTimers" class="cb" type="checkbox"></div>
+                <div>FNATG Cams (not legit)<input id="FNATG" class="cb" type="checkbox"></div>
+                <div>Speedhack <input id="speedhack" type="number" value="1">.(not legit)</div>
+                <div class="title">Bonus Modes</div>
+                <div id="modesDiv">
+                    <div class="extraMode" id="beemsNeverClear">BEEMS NEVER CLEAR</div>
+                    <div class="extraMode" id="silentBeemathon">A</div>
                 </div>
-                <div style="opacity: 0;"><span id="sbText">Silent Beemathon</span><input id="silentBeemathon" class="cb2" type="checkbox"></div>
                 <div id="modeName">
                     <div>Mode Name:</div>
                     <div id="name">BCFY</div>

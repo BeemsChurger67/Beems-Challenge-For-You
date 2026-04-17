@@ -307,6 +307,7 @@ body {
     border: solid white 1vh;
     font-size: 2vh;
     font-family: arcade;
+    margin: 0;
     color: white;
     padding-inline: 1vh;
 }
@@ -322,6 +323,7 @@ body {
     width: 2vh;
     height: 2vh;
     border: none;
+    margin: 0;
 }
 .cb:checked {
     background-image: url(assets/checked.jpg);
@@ -369,11 +371,12 @@ body {
     flex-direction: column;
     gap: 2vh;
     left: 1vh;
-    top: 50%;
+    bottom: 5%;
     font-size: 2vh;
 }
-#name {
-    font-size: 1.5vh;
+#name { 
+    margin-top: -1vh;
+    font-size: 0.7vh;
     width: 50vh;
     align-items: center;
 }
@@ -447,15 +450,24 @@ body {
     background-image: url(assets/beemscat.png);
     background-size: 100% 100%;
 }
-#sbText {
+#silentBeemathon {
     font-family: heavytal;
-    font-size: 4vh;
+    opacity: 0;
+    font-size: 0.1vh;
+    width: 1vh;
     color: #FFFFFF;
-    background-image: linear-gradient(180deg, #FFFFFF 20%, #000000 100%);
+    background-image: linear-gradient(180deg, #FFFFFF 40%, #000000 80%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+}
+#beemsNeverClear {
+    color: blue;
+    font-family: calibri;
+    font-weight: 1;
+    text-shadow: 0 0 1vh blueviolet;
+    font-size: 3vh;
 }
 #speedhack {
     appearance: none;
@@ -463,4 +475,21 @@ body {
     height: 2vh;
     font-size: 1.5vh;
     border: none;
+}
+#modesDiv {
+    display: flex;
+    flex-direction: column;
+    width:max-content;
+}
+.title {
+    font-size: 2.5vh;
+    margin-top: 1.5vh;
+    margin-bottom: 1.5vh;
+}
+.extraMode {
+    margin-top: -0.6vh;
+    margin-bottom: -0.6vh;
+}
+.extraMode:hover {
+    transform: translate(5%,0) scale(1.1);
 }
