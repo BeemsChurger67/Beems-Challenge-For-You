@@ -447,7 +447,7 @@ function ingame(dt, time) {
     if (BNCBest <= ingameTimer && beemsNeverClear) {
         BNCBest = ingameTimer;
     }
-    playtime += dt;
+    playtime += dt / speedhack;
     powerDrain = 0;
     for (let i = 0; i<doors.length; i++) {
         if (doors[i]) {
