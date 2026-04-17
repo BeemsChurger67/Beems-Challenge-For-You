@@ -23,6 +23,7 @@ let settingsOpened = false;
 let eternalMod = false;
 let FNATGCams = false;
 let prePatch = false;
+let oldPrePatch = false;
 let easyMode = false;
 let visibleTimers = false;
 let silentBeemathon = false;
@@ -43,7 +44,8 @@ document.getElementById("modesDiv").addEventListener("click", (e) => {
         prePatch = false;
         eternalMod = false;
         easyMode = false;
-        speedhack = 1;
+        oldPrePatch = false;
+        document.getElementById("speedhack").value = 1;
         visibleTimers = false;
         FNATGCams = false;
         silentBeemathon = true;
@@ -54,8 +56,9 @@ document.getElementById("modesDiv").addEventListener("click", (e) => {
         scene = "ingame";
         prePatch = false;
         eternalMod = false;
+        oldPrePatch = false;
         easyMode = false;
-        speedhack = 1;
+        document.getElementById("speedhack").value = 1;
         visibleTimers = false;
         FNATGCams = false;
         beemsNeverClear = true;
@@ -65,9 +68,10 @@ document.getElementById("modesDiv").addEventListener("click", (e) => {
     if (e.target.id == "EEBCFY") {
         scene = "ingame";
         prePatch = false;
+        oldPrePatch = false;
         eternalMod = true;
         easyMode = true;
-        speedhack = 1;
+        document.getElementById("speedhack").value = 1;
         visibleTimers = false;
         FNATGCams = false;
         bonusMode = true;
@@ -91,6 +95,12 @@ document.getElementById("settings").addEventListener("click", (e) => {
             document.getElementById("name").textContent = "Pre-Patch ";
         } else {
             prePatch = false;
+        }
+        if (document.getElementById("prePatchOld").checked) {
+            oldPrePatch = true;
+            document.getElementById("name").textContent = "Old Pre-Patch ";
+        } else {
+            oldPrePatch = false;
         }
         if (document.getElementById("eternalMod").checked) {
             eternalMod = true;
@@ -449,7 +459,6 @@ function ingame(dt, time) {
     document.getElementById("silhouette").style.opacity = 0;
     if (beemsNeverClear) {
         document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2) brightness(0.5)";
-        console.log(ingameTimer);
         if (ingameTimer >= 10.4) {
             diffMult = 2.5;
             document.getElementById("ingame").style.filter = "url(#redFilter)";
@@ -551,8 +560,6 @@ function ingame(dt, time) {
         }
     }
     if (!beemsNeverClear) {
-        console.log(ingameTimer, nightLength);
-        console.log((ingameTimer - nightLength+60) / 50);
         document.getElementById("lastMinute").style.opacity = (ingameTimer - nightLength+60) / 50;
         document.getElementById("lastMinute").textContent = Math.floor(nightLength - ingameTimer);
     }
@@ -673,7 +680,7 @@ function ingame(dt, time) {
             if (silentBeemathon) {
                 tim.killTimer = 7 - diffMult;
             } else {
-                if (prePatch) {
+                if (prePatchOld) {
                     tim.killTimer = 7 + (Math.random()*3) - diffMult*2;
                 } else {
                     tim.killTimer = 10 + (Math.random()*5) - diffMult*3;
@@ -684,7 +691,7 @@ function ingame(dt, time) {
     }
     foxyBeems.killTimer += dt * diffMult;
     if (cam == 3 && shocked) {
-        if (prePatch) {
+        if (prePatchOld) {
             foxyBeems.killTimer /= 2;
         } else {
             foxyBeems.killTimer /= 3;
