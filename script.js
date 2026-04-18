@@ -553,7 +553,7 @@ function ingame(dt, time) {
             document.getElementById("wfTurb").setAttribute("seed", Math.round(Math.random() * 1000));
         }
         if (ingameTimer >= 51.5 && ingameTimer <= 51.9) {
-            transitionOpacity += dt * 2.5;
+            transitionOpacity += dt * 2.2;
         }
         if (ingameTimer >= 51.9) {
             document.getElementById("ingame").style.filter = "";
