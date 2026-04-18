@@ -341,20 +341,6 @@ body {
     background-color: black;
     font-family: arcade;
 }
-#fnatgCams {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 50vw;
-    height: 10vh;
-    background-color:black;
-    opacity: 0.7;
-    color: white;
-    border-radius: 1vh;
-    text-align: center;
-    font-size: 8vh;
-    transform: translate(-50%,0);
-}
 #killer {
     position: absolute;
     left: 50%;
@@ -499,4 +485,26 @@ body {
 }
 .extraMode:hover {
     transform: translate(5%,0) scale(1.1);
+}
+#mortimerBeems {
+    position: absolute;
+    display: none;
+    inset: 0;
+    left: 40vh;
+    top: 53.5%;
+    width: 30vh;
+    height: 40vh;
+    background-image: url(assets/beemscat.png);
+    background-size: 100% 100%;
+    transform: translate(0,-50%);
+    filter:contrast(3) saturate(3) grayscale(1);
+}
+#bulletBeems {
+    position: absolute;
+    width: 10vh;
+    height: 3vh;
+    background-image: url(assets/beemscat.png);
+    background-size: 100% 100%;
+    top: 50%;
+    transform: translate(-50%,-50%);
 }

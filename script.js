@@ -12,6 +12,7 @@ const audioList = {
     bonk: "assets/bonk.mp3",
     tick1: "assets/tick1.mp3",
     tick2: "assets/tick2.mp3",
+    mortimerBeems: "assets/mortimerBeems.mp3",
 }
 let sfx = {};
 let globalVolume = 0;
@@ -108,11 +109,6 @@ document.getElementById("settings").addEventListener("click", (e) => {
         } else {
             eternalMod = false;
         }
-        if (document.getElementById("FNATG").checked) {
-            FNATGCams = true;
-        } else {
-            FNATGCams = false;
-        }
         if (document.getElementById("easyMode").checked) {
             easyMode = true;
             document.getElementById("name").textContent += "Easy ";
@@ -197,6 +193,10 @@ document.getElementById("shockButton").addEventListener("mousedown", () => {
     power -= 0.1;
     shocked = true;
 });
+document.getElementById("bulletBeems").addEventListener("mousedown", (e) => {
+    bulletBeems.spawnTimer = 0;
+    bulletBeems.x = 0;
+});
 document.getElementById("openCams").addEventListener("mousedown", () => {
     camsOpened = !camsOpened;
     if (camsOpened) {
@@ -271,6 +271,9 @@ let doorCharacters = [];
 let timerCharacters = [];
 let foxyBeems = {};
 let impurityBeems = {};
+let mortimerBeems = {};
+let camBeems = {};
+let bulletBeems = {}
 let diffMult = 1;
 let ingameTimer = 0;
 let power = 100;
@@ -430,8 +433,32 @@ function ingame(dt, time) {
             cam: 5,
             element: document.getElementById("impurityBeems")
         }
+        mortimerBeems = {
+            active: false,
+            killTimer: 0,
+            killTime: 10,
+            moveTimer: 0,
+            moveTime: 5,
+            cam: 0,
+        };
+        camBeems = {
+            active: false,
+            spawnTimer: 0,
+            spawnTime: 5,
+            killTimer: 0,
+            killTime: 5,
+        };
+        bulletBeems = {
+            active: false,
+            spawnTimer: 0,
+            spawnTime: 4,
+            x: 0,
+        }
         document.getElementById("killer").textContent = "You died to " + killer + " | Percentage: " + (ingameTimer / nightLength * 100).toFixed(2) + "%";
         ingameTimer = 0;
+        for (let i = 0; i<6; i++) {
+            document.getElementById("cam" + i).style.backgroundColor = "white";
+        }
     }
     killerOpacity -= dt;
     document.getElementById("killer").style.opacity = killerOpacity;
@@ -531,6 +558,7 @@ function ingame(dt, time) {
         if (ingameTimer / nightLength >= 0.2 && !silentBeemathonTicks[0]) {
             phase = 1;
             diffMult = 1.7;
+            mortimerBeems.active = true;
             silentBeemathonTicks[0] = true;
             transitionOpacity = 1;
             sfx.tick1.play();
@@ -538,6 +566,15 @@ function ingame(dt, time) {
         if (ingameTimer / nightLength >= 0.4 && !silentBeemathonTicks[1]) {
             phase = 2;
             diffMult = 1.8;
+            camBeems.active = true;
+            mortimerBeems = {
+                active: false,
+                killTimer: 10,
+                killTime: 0,
+                moveTimer: 0,
+                moveTime: 5,
+                cam: 0,
+            };
             silentBeemathonTicks[1] = true;
             transitionOpacity = 1;
             sfx.tick2.play();
@@ -546,13 +583,23 @@ function ingame(dt, time) {
         if (ingameTimer / nightLength >= 0.6 && !silentBeemathonTicks[2]) {
             phase = 3;
             diffMult = 1.9;
+            camBeems.active = false;
+            camBeems = {
+                active: false,
+                spawnTimer: 0,
+                spawnTime: 5,
+                killTimer: 0,
+                killTime: 5,
+            };
+            bulletBeems.active = true;
             silentBeemathonTicks[2] = true;
             transitionOpacity = 1;
             sfx.tick1.play();
         }
         if (ingameTimer / nightLength >= 0.8 && !silentBeemathonTicks[3]) {
             phase = 4;
-            diffMult = 2.2;
+            camBeems.active = true;
+            mortimerBeems.active = true;
             silentBeemathonTicks[3] = true;
             transitionOpacity = 1;
             sfx.tick2.play();
@@ -727,6 +774,75 @@ function ingame(dt, time) {
         }
     } else {
         impurityBeems.element.style.display = "none";
+    }
+    if (mortimerBeems.active) {
+        document.getElementById("mortimerBeems").style.display = "none";
+        mortimerBeems.moveTimer += dt * diffMult;
+        if (mortimerBeems.moveTimer >= mortimerBeems.moveTime) {
+            console.log(mortimerBeems);
+            if (mortimerBeems.killTimer === 0) {
+                mortimerBeems.cam = Math.round(Math.random() * 5);
+            }
+            if (camsOpened) {
+                document.getElementById("mortimerBeems").style.display = "none";
+            } else {
+                document.getElementById("mortimerBeems").style.display = "block";
+            }
+            mortimerBeems.killTimer += dt;
+            if (camsOpened && mortimerBeems.cam == cam) {
+                sfx.mortimerBeems.play();
+                if (shocked) {
+                    sfx.mortimerBeems.pause();
+                    sfx.mortimerBeems.currentTime = 0;
+                    mortimerBeems.moveTimer = 0;
+                    mortimerBeems.killTimer = 0;
+                }
+            } else {
+                sfx.mortimerBeems.pause();
+                sfx.mortimerBeems.currentTime = 0;
+            }
+            if (mortimerBeems.killTimer >= mortimerBeems.killTime) {
+                killer = "mortimerBeems";
+                firstFrame[1] = false;
+            }
+        }   
+    } else {
+        document.getElementById("mortimerBeems").style.display = "none";
+    }
+    if (camBeems.active) {
+        camBeems.spawnTimer += dt * diffMult;
+        if (camBeems.spawnTimer >= camBeems.spawnTime) {
+            if (camBeems.killTimer === 0) {
+                camBeems.cam = Math.round(Math.random() * 5);
+            }
+            camBeems.killTimer += dt;
+            document.getElementById("cam" + camBeems.cam).style.backgroundColor = "red";
+            if (camBeems.cam == cam && camsOpened && shocked) {
+                camBeems.spawnTimer = 0;
+                camBeems.killTimer = 0;
+                document.getElementById("cam" + camBeems.cam).style.backgroundColor = "white";
+            }
+            if (camBeems.killTimer >= camBeems.killTime) {
+                killer = "camBeems";
+                firstFrame[1] = false;
+            }
+        }
+    }
+    if (bulletBeems.active) {
+        bulletBeems.spawnTimer += dt * diffMult;
+        document.getElementById("bulletBeems").style.display = "none";
+        if (bulletBeems.spawnTimer >= bulletBeems.spawnTime) {
+            document.getElementById("bulletBeems").style.display = "block";
+            bulletBeems.killTimer += dt;
+            bulletBeems.x += dt * 33;
+            document.getElementById("bulletBeems").style.left = bulletBeems.x + "%";
+            if (camBeems.killTimer >= camBeems.killTime) {
+                killer = "bulletBeems";
+                firstFrame[1] = false;
+            }
+        }
+    } else {
+        document.getElementById("bulletBeems").style.display = "none";
     }
     document.getElementById("officeBG").style.backgroundPositionX = time / 50 + "vh";
     transitionOpacity -= dt / 2;
