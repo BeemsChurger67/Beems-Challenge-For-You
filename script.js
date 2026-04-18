@@ -552,10 +552,13 @@ function ingame(dt, time) {
             diffMult = 2.7;
             document.getElementById("wfTurb").setAttribute("seed", Math.round(Math.random() * 1000));
         }
+        if (ingameTimer >= 51.5 && ingameTimer <= 51.9) {
+            transitionOpacity += dt * 2.5;
+        }
         if (ingameTimer >= 51.9) {
-            transitionOpacity = 1;
             document.getElementById("ingame").style.filter = "";
             diffMult = 1.5;
+            document.getElementById("ingame").style.rotate = "";
         }
     } else if (!silentBeemathon) {
         if (eternalMod) {
