@@ -5,6 +5,7 @@ const audioList = {
     menuTheme: "assets/menuTheme.mp3",
     ingameTheme: "assets/ingameTheme.mp3",
     eternalTheme: "assets/eternalTheme.mp3",
+    BCFYAC: "assets/BCFYAC.mp3",
     silentBeemathon: "assets/silentBeemathon.mp3",
     beemsNeverClear: "assets/beemsNeverClear.mp3",
     electricity: "assets/electricity.mp3",
@@ -24,7 +25,8 @@ let settingsOpened = false;
 let eternalMod = false;
 let FNATGCams = false;
 let prePatch = false;
-let oldPrePatch = false;
+let shorterKT = false;
+let hyperImpurity = false;
 let easyMode = false;
 let visibleTimers = false;
 let silentBeemathon = false;
@@ -39,11 +41,14 @@ let tasStats = {
     mission: "openCams",
 }
 let bonusMode = false;
+let bcfyac = false;
 document.getElementById("modesDiv").addEventListener("click", (e) => {
     if (e.target.id == "silentBeemathon") {
         scene = "ingame";
         prePatch = false;
         eternalMod = false;
+        hyperImpurity = false;
+        shorterKT = false;
         easyMode = false;
         oldPrePatch = false;
         document.getElementById("speedhack").value = 1;
@@ -57,7 +62,8 @@ document.getElementById("modesDiv").addEventListener("click", (e) => {
         scene = "ingame";
         prePatch = false;
         eternalMod = false;
-        oldPrePatch = false;
+        hyperImpurity = false;
+        shorterKT = false;
         easyMode = false;
         document.getElementById("speedhack").value = 1;
         visibleTimers = false;
@@ -69,13 +75,28 @@ document.getElementById("modesDiv").addEventListener("click", (e) => {
     if (e.target.id == "EEBCFY") {
         scene = "ingame";
         prePatch = false;
-        oldPrePatch = false;
         eternalMod = true;
+        hyperImpurity = false;
+        shorterKT = false;
         easyMode = true;
         document.getElementById("speedhack").value = 1;
         visibleTimers = false;
         FNATGCams = false;
         bonusMode = true;
+        document.getElementById("name").textContent = "Eternal Easy Beems's Challenge For You";
+    }
+    if (e.target.id == "BCFYAC") {
+        scene = "ingame";
+        prePatch = true;
+        eternalMod = true;
+        hyperImpurity = true;
+        shorterKT = true;
+        easyMode = false;
+        document.getElementById("speedhack").value = 1;
+        visibleTimers = false;
+        FNATGCams = false;
+        bonusMode = true;
+        bcfyac = true;
         document.getElementById("name").textContent = "Eternal Easy Beems's Challenge For You";
     }
 });
@@ -91,18 +112,6 @@ document.getElementById("settings").addEventListener("click", (e) => {
             }
         }
         document.getElementById("name").textContent = "";
-        if (document.getElementById("prePatch").checked) {
-            prePatch = true;
-            document.getElementById("name").textContent = "Pre-Patch ";
-        } else {
-            prePatch = false;
-        }
-        if (document.getElementById("prePatchOld").checked) {
-            oldPrePatch = true;
-            document.getElementById("name").textContent = "Old Pre-Patch ";
-        } else {
-            oldPrePatch = false;
-        }
         if (document.getElementById("eternalMod").checked) {
             eternalMod = true;
             document.getElementById("name").textContent += "Eternal ";
@@ -117,11 +126,28 @@ document.getElementById("settings").addEventListener("click", (e) => {
         }
         if (document.getElementById("visibleTimers").checked) {
             visibleTimers = true;
-            document.getElementById("name").textContent += "VT ";
         } else {
             visibleTimers = false;
         }
+        if (document.getElementById("hyperImpurity").checked) {
+            hyperImpurity = true;
+            document.getElementById("name").textContent += "HYIM ";
+        } else {
+            hyperImpurity = false;
+        }
+        if (document.getElementById("shorterKT").checked) {
+            shorterKT = true;
+            document.getElementById("name").textContent += "SHKT ";
+        } else {
+            hyperImpurity = false;
+        }
         document.getElementById("name").textContent += "Beems's Challenge For You";
+        if (document.getElementById("prePatch").checked) {
+            prePatch = true;
+            document.getElementById("name").textContent += " Pre-Patch";
+        } else {
+            prePatch = false;
+        }
     }
 });
 document.getElementById("next").addEventListener("click", (e) => {
@@ -285,12 +311,16 @@ let bestRun = 0;
 let eternalBest = 0;
 let ppBest = 0;
 let BNCBest = 0;
+let EEBCFYBest = 0;
+let BCFYACBest = 0;
 let saveData = {
     playtime: playtime,
     bestRun: bestRun,
     eternalBest: eternalBest,
     ppBest: ppBest,
     BNCBest: BNCBest,
+    EEBCFYBest: EEBCFYBest,
+    BCFYACBest: BCFYACBest,
 }
 function tasCollide(rect1, rect2) {
     return rect1.x < rect2.x + rect2.width &&
@@ -315,6 +345,8 @@ function ingame(dt, time) {
             eternalBest: eternalBest,
             ppBest: ppBest,
             BNCBest: BNCBest,
+            EEBCFYBest: EEBCFYBest,
+            BCFYACBest: BCFYACBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         document.getElementById("prologue").style.display = "none";
@@ -343,7 +375,9 @@ function ingame(dt, time) {
         document.getElementById("office").style.display = "block";
         document.getElementById("cams").style.display = "none";
         speedhack = document.getElementById("speedhack").value;
-        if (silentBeemathon) {
+        if (bcfyac) {
+            sfx.BCFYAC.play();
+        } else if (silentBeemathon) {
             diffMult = 1.6;
             sfx.silentBeemathon.play();
             document.getElementById("ingame").style.filter = "saturate(2) grayscale(1) contrast(2)"
@@ -474,6 +508,12 @@ function ingame(dt, time) {
     if (BNCBest <= ingameTimer && beemsNeverClear) {
         BNCBest = ingameTimer;
     }
+    if (EEBCFYBest <= ingameTimer && eternalMod && easyMode) {
+        EEBCFYBest = ingameTimer;
+    }
+    if (BCFYACBest <= ingameTimer && eternalBest && hyperImpurity && shorterKT && !easyMode) {
+        BCFYACBest = ingameTimer;
+    }
     playtime += dt / speedhack;
     powerDrain = 0;
     for (let i = 0; i<doors.length; i++) {
@@ -484,7 +524,18 @@ function ingame(dt, time) {
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 8;
     document.getElementById("silhouette").style.opacity = 0;
-    if (beemsNeverClear) {
+    if (bcfyac) {
+        document.getElementById("ingame").style.filter = "contrast(2.2) saturate(2.2) sepia(1) hue-rotate(240deg)";
+        for (let i = 1; i<4; i++) {
+            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 10 + "vh";
+        }
+        document.getElementById("ingame").style.rotate = Math.random()*2-1+"deg";
+        if (ingameTimer >= 300) {
+            document.getElementById("ingame").style.filter = "contrast(2) saturate(2) sepia(1) hue-rotate(2" + Math.random() * 50 + "deg) brightness(0.3)";
+            document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
+        }
+    } else if (beemsNeverClear) {
         document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2) brightness(0.5)";
         if (ingameTimer >= 10.4) {
             diffMult = 2.5;
@@ -519,12 +570,12 @@ function ingame(dt, time) {
                     if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; diffMult-=0.3; phase = 1;} else
                     if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; diffMult-=0.3; phase = 3;} else
                     if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; diffMult-=0.3; phase = 2;} else
-                    if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; diffMult-=0.3; phase = 0;} else
-                    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; diffMult-=0.3; phase = 1} else
-                    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; diffMult-=0.3; phase = 2} else
-                    if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; diffMult-=0.3; phase = 1} else
-                    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; diffMult-=0.3; phase = 2} else
-                    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; diffMult-=0.3; phase = 3}
+                    if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1; diffMult-=0.3; phase = 0;} else
+                    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 1.5; diffMult-=0.3; phase = 1} else
+                    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2; diffMult-=0.3; phase = 2} else
+                    if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 1.5; diffMult-=0.3; phase = 1} else
+                    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 1.5; diffMult-=0.3; phase = 2} else
+                    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 2.5; diffMult-=0.3; phase = 3}
                 } else {
                     if (ingameTimer >= 20.5 && ingameTimer <= 21)         {diffMult = 1.5; phase = 1 } else
                     if (ingameTimer >= 40.5 && ingameTimer <= 41)         {diffMult = 2; phase = 2} else
@@ -532,12 +583,12 @@ function ingame(dt, time) {
                     if (ingameTimer >= 101 && ingameTimer <= 102)         {diffMult = 1.5; phase = 1;} else
                     if (ingameTimer >= 122 && ingameTimer <= 123)         {diffMult = 2.5; phase = 3;} else
                     if (ingameTimer >= 141 && ingameTimer <= 142)         {diffMult = 2; phase = 2;} else
-                    if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1.5; phase = 0;} else
-                    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 2; phase = 1} else
-                    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2.5; phase = 2} else
-                    if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 2; phase = 1} else
-                    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 2; phase = 2} else
-                    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 3; phase = 3}
+                    if (ingameTimer >= 161 && ingameTimer <= 162)         {diffMult = 1; phase = 0;} else
+                    if (ingameTimer >= 20.5+161 && ingameTimer <= 21+161) {diffMult = 1.5; phase = 1} else
+                    if (ingameTimer >= 40.5+161 && ingameTimer <= 41+161) {diffMult = 2; phase = 2} else
+                    if (ingameTimer >= 81+161 && ingameTimer <= 82+161)   {diffMult = 1.5; phase = 1} else
+                    if (ingameTimer >= 101+161 && ingameTimer <= 102+161) {diffMult = 1.5; phase = 2} else
+                    if (ingameTimer >= 121+161 && ingameTimer <= 122+161) {diffMult = 2.5; phase = 3}
                 }
             } else {
                 if (ingameTimer >= 20.5 && ingameTimer <= 21) {phase = 1} else
@@ -612,53 +663,56 @@ function ingame(dt, time) {
     }
     if (prePatch && eternalMod) {
         if (easyMode) {
-            diffMult = 2.7;
+            diffMult = 2.2;
         } else {
-            diffMult = 3;
+            diffMult = 2.5;
         }
     }
-    for (let i = 1; i<4; i++) {
-        document.getElementById("fog"+i).style.backgroundPositionX = time * i / 100 * i / 4 + "vh";
-        document.getElementById("fog"+i).style.backgroundPositionY = time * i / 150 + "vh";
-    }
-    document.getElementById("fogBg").style.filter = "";
-    if (phase === 1) {
-        document.getElementById("fogBg").style.filter = "hue-rotate("+time/100+"deg)";
-        if (silentBeemathon) {
-            document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2)";
-        }
-    }
-    if (phase === 2) {
-        document.getElementById("fogBg").style.filter = "hue-rotate("+time/33+"deg)";
-        document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
-        if (silentBeemathon) {
-            document.getElementById("ingame").style.filter = "saturate(2.4) grayscale(1) contrast(2.4)";
-        }
-    } 
-    if (phase === 3) {
-        document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
-        document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
-        if (silentBeemathon) {
-            document.getElementById("ingame").style.filter = "saturate(2.6) grayscale(1) contrast(2.6)";
-        }
+    if (!bcfyac) {
         for (let i = 1; i<4; i++) {
-            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
-            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 100 * i / 4 + "vh";
+            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 150 + "vh";
+        }
+        document.getElementById("fogBg").style.filter = "";
+        if (phase === 1) {
+            document.getElementById("fogBg").style.filter = "hue-rotate("+time/100+"deg)";
+            if (silentBeemathon) {
+                document.getElementById("ingame").style.filter = "saturate(2.2) grayscale(1) contrast(2.2)";
+            }
+        }
+        if (phase === 2) {
+            document.getElementById("fogBg").style.filter = "hue-rotate("+time/33+"deg)";
+            document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
+            if (silentBeemathon) {
+                document.getElementById("ingame").style.filter = "saturate(2.4) grayscale(1) contrast(2.4)";
+            }
+        } 
+        if (phase === 3) {
+            document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
+            document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
+            if (silentBeemathon) {
+                document.getElementById("ingame").style.filter = "saturate(2.6) grayscale(1) contrast(2.6)";
+            }
+            for (let i = 1; i<4; i++) {
+                document.getElementById("fog"+i).style.backgroundPositionX = time * i / 10 * i / 4 + "vh";
+                document.getElementById("fog"+i).style.backgroundPositionY = time * i / 25 + "vh";
+            }
+        }
+        if (phase === 4) {
+            document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
+            document.getElementById("ingame").style.rotate = Math.random()*1.5-0.75+"deg";
+            if (silentBeemathon) {
+                document.getElementById("ingame").style.filter = "saturate(3) grayscale(1) contrast(3)";
+            } else {
+                document.getElementById("ingame").style.filter = "saturate(2)";
+            }
+            for (let i = 1; i<4; i++) {
+                document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
+                document.getElementById("fog"+i).style.backgroundPositionY = time * i / 12.5 + "vh";
+            }
         }
     }
-    if (phase === 4) {
-        document.getElementById("fogBg").style.filter = "hue-rotate("+time/10+"deg)";
-        document.getElementById("ingame").style.rotate = Math.random()*1.5-0.75+"deg";
-        if (silentBeemathon) {
-            document.getElementById("ingame").style.filter = "saturate(3) grayscale(1) contrast(3)";
-        } else {
-            document.getElementById("ingame").style.filter = "saturate(2)";
-        }
-        for (let i = 1; i<4; i++) {
-            document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
-            document.getElementById("fog"+i).style.backgroundPositionY = time * i / 12.5 + "vh";
-        }
-    }
+
     if (!eternalMod && !silentBeemathon) {
         diffMult += dt / 300;
     }
@@ -682,6 +736,7 @@ function ingame(dt, time) {
             eternalBest: eternalBest,
             ppBest: ppBest,
             BNCBest: BNCBest,
+            EEBCFYBest: EEBCFYBest,
         }
         scene = "win";
     }
@@ -694,7 +749,11 @@ function ingame(dt, time) {
         char.moveTimer += dt * char.speed * diffMult;
         if (char.moveTimer >= char.moveTime && !doors[char.door]) {
             char.element.style.opacity = 1;
-            char.killTimer += dt;
+            if (shorterKT) {
+                char.killTimer += dt * 1.5
+            } else {
+                char.killTimer += dt
+            }
             if (char.killTimer >= char.killTime) {
                 firstFrame[1] = false;
                 killer = "Door Beems " + i; 
@@ -727,22 +786,14 @@ function ingame(dt, time) {
             if (silentBeemathon) {
                 tim.killTimer = 7 - diffMult;
             } else {
-                if (prePatchOld) {
-                    tim.killTimer = 7 + (Math.random()*3) - diffMult*2;
-                } else {
-                    tim.killTimer = 10 + (Math.random()*5) - diffMult*3;
-                }
+                tim.killTimer = 10 + (Math.random()*5) - diffMult*3;
             }
             tim.cam = Math.round(Math.random()*5);
         }
     }
     foxyBeems.killTimer += dt * diffMult;
     if (cam == 3 && shocked) {
-        if (prePatchOld) {
-            foxyBeems.killTimer /= 2;
-        } else {
-            foxyBeems.killTimer /= 3;
-        }
+        foxyBeems.killTimer /= 3;
     }
     if (cam == 3) {
         foxyBeems.element.style.transform = "translate(-50%,-50%) scale(" + foxyBeems.killTimer / 5 + ")";
@@ -754,7 +805,11 @@ function ingame(dt, time) {
         firstFrame[1] = false;
         killer = "Foxy Beems"; 
     }
-    impurityBeems.moveTimer += dt * diffMult;
+    if (hyperImpurity) {
+        impurityBeems.moveTimer += dt * diffMult * 1.5;
+    } else {
+        impurityBeems.moveTimer += dt * diffMult;
+    }
     if (impurityBeems.moveTimer >= impurityBeems.moveTime) {
         impurityBeems.moveTimer = 0;
         impurityBeems.cam--;
@@ -914,6 +969,10 @@ function loadProgress() {
     if (data.eternalBest != null) eternalBest = data.eternalBest;
     if (data.ppBest != null) ppBest = data.ppBest;
     if (data.BNCBest != null) BNCBest = data.BNCBest;
+    if (data.EEBCFYBest != null) EEBCFYBest = data.EEBCFYBest;
+    if (data.BCFYACBest != null) BCFYACBest = data.BCFYACBest;
+    document.getElementById("BCFYACBestRun").textContent = "BCFYAC: " + Math.floor(BCFYACBest / 360 * 100) + "%";
+    document.getElementById("EEBCFYBestRun").textContent = "EEBCFY: " + Math.floor(EEBCFYBest / 360 * 100) + "%";
     document.getElementById("BNCBestRun").textContent = "BNC: " + Math.floor(BNCBest / 72 * 100) + "%";
     document.getElementById("normalBestRun").textContent = "BCFY: " + Math.floor(bestRun / 360 * 100) + "%";
     document.getElementById("prePatchBest").textContent = "Pre-Patch: " + Math.floor(ppBest / 360 * 100) + "%";

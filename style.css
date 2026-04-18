@@ -279,7 +279,7 @@ body {
     position: absolute;
     left: 1%;
     bottom: 1%;
-    font-size: 5vh;
+    font-size: 4vh;
     color: white;
     transform: translate(0,0);
 }
@@ -461,6 +461,35 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+}
+@keyframes acText {
+    0% {
+        background-image: linear-gradient(0deg, #000000 20%, #ff0000 90%);
+        text-shadow: 0 0 1vh red;
+    }
+    33% {
+        background-image: linear-gradient(90deg, #000000 20%, #ff0000 90%);
+        text-shadow: 0 0 1vh black;
+    }
+    66% {
+        background-image: linear-gradient(180deg, #000000 20%, #ff0000 90%);
+        text-shadow: 0 0 1vh red;
+    }
+    100% {
+        background-image: linear-gradient(270deg, #000000 20%, #ff0000 90%);
+        text-shadow: 0 0 1vh black;
+    }
+}
+#BCFYAC {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    animation-name: acText;
+    animation-delay: 0;
+    animation-iteration-count: infinite;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
 }
 #speedhack {
     appearance: none;
