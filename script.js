@@ -732,7 +732,7 @@ function ingame(dt, time) {
     document.getElementById("power").textContent = "Power: " + power.toFixed(1) + "%";
     document.getElementById("difficulty").textContent = "Difficulty: " + diffMult.toFixed(2) + "x";
     ingameTimer += dt;
-    if (ingameTimer >= nightLength) {
+    if (ingameTimer >= nightLength + 0.1) {
         saveData = {
             playtime: playtime,
             bestRun: bestRun,
