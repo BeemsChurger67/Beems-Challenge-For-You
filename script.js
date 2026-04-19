@@ -740,7 +740,9 @@ function ingame(dt, time) {
             ppBest: ppBest,
             BNCBest: BNCBest,
             EEBCFYBest: EEBCFYBest,
+            BCFYAC: BCFYACBest,
         }
+        localStorage.setItem("data", JSON.stringify(saveData));
         scene = "win";
     }
     if (power <= 0) {
