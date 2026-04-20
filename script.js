@@ -313,6 +313,7 @@ let ppBest = 0;
 let BNCBest = 0;
 let EEBCFYBest = 0;
 let BCFYACBest = 0;
+let EBCFYPPBest = 0;
 let saveData = {
     playtime: playtime,
     bestRun: bestRun,
@@ -321,6 +322,7 @@ let saveData = {
     BNCBest: BNCBest,
     EEBCFYBest: EEBCFYBest,
     BCFYACBest: BCFYACBest,
+    EBCFYPPBest: EBCFYPPBest,
 }
 function tasCollide(rect1, rect2) {
     return rect1.x < rect2.x + rect2.width &&
@@ -347,6 +349,7 @@ function ingame(dt, time) {
             BNCBest: BNCBest,
             EEBCFYBest: EEBCFYBest,
             BCFYACBest: BCFYACBest,
+            EBCFYPPBest: EBCFYPPBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         document.getElementById("prologue").style.display = "none";
@@ -741,6 +744,7 @@ function ingame(dt, time) {
             BNCBest: BNCBest,
             EEBCFYBest: EEBCFYBest,
             BCFYAC: BCFYACBest,
+            EBCFYPPBest: EBCFYPPBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         scene = "win";
@@ -976,6 +980,8 @@ function loadProgress() {
     if (data.BNCBest != null) BNCBest = data.BNCBest;
     if (data.EEBCFYBest != null) EEBCFYBest = data.EEBCFYBest;
     if (data.BCFYACBest != null) BCFYACBest = data.BCFYACBest;
+    if (data.EBCFYPPBest != null) EBCFYPPBest = data.EBCFYPPBest;
+    document.getElementById("EBCFYPPBestRun").textContent = "EBCFYPP: " + Math.floor(EBCFYPPBest / 360 * 100) + "%";
     document.getElementById("BCFYACBestRun").textContent = "BCFYAC: " + Math.floor(BCFYACBest / 360 * 100) + "%";
     document.getElementById("EEBCFYBestRun").textContent = "EEBCFY: " + Math.floor(EEBCFYBest / 360 * 100) + "%";
     document.getElementById("BNCBestRun").textContent = "BNC: " + Math.floor(BNCBest / 72 * 100) + "%";
