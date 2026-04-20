@@ -514,8 +514,11 @@ function ingame(dt, time) {
     if (EEBCFYBest <= ingameTimer && eternalMod && easyMode) {
         EEBCFYBest = ingameTimer;
     }
-    if (BCFYACBest <= ingameTimer && eternalBest && hyperImpurity && shorterKT && !easyMode) {
+    if (BCFYACBest <= ingameTimer && eternalMod && hyperImpurity && shorterKT && !easyMode) {
         BCFYACBest = ingameTimer;
+    }
+    if (EBCFYPPBest <= ingameTimer && eternalMod && !easyMode && prePatch) {
+        EBCFYPPBest = ingameTimer;
     }
     playtime += dt / speedhack;
     powerDrain = 0;
