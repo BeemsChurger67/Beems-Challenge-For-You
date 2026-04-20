@@ -25,6 +25,13 @@
                 <feTurbulence id="wfTurb" type="turbulence" baseFrequency="0.01 0.01" numOctaves="2" seed="261" stitchTiles="noStitch" result="turbulence"/>
                 <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="G" yChannelSelector="A" result="displacementMap"/>
             </filter>
+            <filter id="andromedaFilter" color-interpolation-filters="linearRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+                <feColorMatrix type="matrix" values="
+            0 0 1 0 0
+            0 0 0 0 0
+            0 0 1 0.2 0
+            0 0 0 1 0" x="0%" y="0%" width="100vw" height="100vh" in="SourceGraphic" result="colormatrix"/>
+            </filter>
         </svg>
         <div id="interact">
             <div id="clickme">Click Me</div>
@@ -73,6 +80,7 @@
                     <div class="extraMode" id="beemsNeverClear">BEEMS NEVER CLEAR</div>
                     <div class="extraMode" id="EEBCFY">Eternal Easy BCFY</div>
                     <div class="extraMode" id="BCFYAC">BCFY All Challenges</div>
+                    <div class="extraMode" id="andromeda">Andromeda</div>
                     <div class="extraMode" id="silentBeemathon">A</div>
                 </div>
                 <div id="modeName">

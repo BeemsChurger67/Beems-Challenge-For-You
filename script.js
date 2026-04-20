@@ -14,6 +14,7 @@ const audioList = {
     tick1: "assets/tick1.mp3",
     tick2: "assets/tick2.mp3",
     mortimerBeems: "assets/mortimerBeems.mp3",
+    andromeda: "assets/andromeda.mp3",
 }
 let sfx = {};
 let globalVolume = 0;
@@ -31,6 +32,7 @@ let easyMode = false;
 let visibleTimers = false;
 let silentBeemathon = false;
 let beemsNeverClear = false;
+let andromeda = false;
 let speedhack = 1;
 let tas = false;
 let tasStats = {
@@ -98,6 +100,20 @@ document.getElementById("modesDiv").addEventListener("click", (e) => {
         bonusMode = true;
         bcfyac = true;
         document.getElementById("name").textContent = "Eternal Easy Beems's Challenge For You";
+    }
+    if (e.target.id == "andromeda") {
+        scene = "ingame";
+        prePatch = false;
+        eternalMod = false;
+        hyperImpurity = false;
+        shorterKT = true;
+        easyMode = false;
+        document.getElementById("speedhack").value = 1;
+        visibleTimers = false;
+        FNATGCams = false;
+        bonusMode = true;
+        andromeda = true;
+        document.getElementById("name").textContent = "Andromeda";
     }
 });
 document.getElementById("settings").addEventListener("click", (e) => {
@@ -378,7 +394,10 @@ function ingame(dt, time) {
         document.getElementById("office").style.display = "block";
         document.getElementById("cams").style.display = "none";
         speedhack = document.getElementById("speedhack").value;
-        if (bcfyac) {
+        if (andromeda) {
+            sfx.andromeda.play();
+            nightLength = 278;
+        } else if (bcfyac) {
             sfx.BCFYAC.play();
         } else if (silentBeemathon) {
             diffMult = 1.6;
@@ -530,7 +549,20 @@ function ingame(dt, time) {
     if (camsOpened) powerDrain++;
     power -= powerDrain * dt / 8;
     document.getElementById("silhouette").style.opacity = 0;
-    if (bcfyac) {
+    if (andromeda) {
+        if (ingameTimer >= 5.8) {
+            for (let i = 1; i<4; i++) {
+                document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
+                document.getElementById("fog"+i).style.backgroundPositionY = time * i / 10 + "vh";
+            }
+            document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
+            document.getElementById("ingame").style.filter = "url(#andromedaFilter)";
+            diffMult = 2.6;
+        } else {
+            document.getElementById("ingame").style.filter = "url(#andromedaFilter) brightness(0.3)";
+            diffMult = 2;
+        }
+    } else if (bcfyac) {
         document.getElementById("ingame").style.filter = "contrast(2.2) saturate(2.2) sepia(1) hue-rotate(240deg)";
         for (let i = 1; i<4; i++) {
             document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
