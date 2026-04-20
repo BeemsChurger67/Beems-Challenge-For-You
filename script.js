@@ -284,6 +284,16 @@ const dialogue = [
     "...",
     "oh yeah if you run out of power your done for btw",
     "alright go for it man....",
+    "...",
+    "oh yeah the secret characters that are in some bonus modes",
+    "so basically you have beems",
+    "hes gray and is basically mortimer from FNATI, a song will play if your on the right camera and you have to shock that camera its a random cam",
+    "then you have beems",
+    "a random camera will be highlighted just shock that camera",
+    "then you have beems",
+    "a bullet will fly across the screen just click it",
+    "yep",
+    "(:"
 ];
 let firstFrame = [false, false, false, false];
 function prologue(dt, time) {
@@ -350,8 +360,10 @@ let killerOpacity = 1.5;
 let killer = "nobody lol";
 let silentBeemathonTicks = [false,false,false,false];
 let nightLength = 360;
+let andromedaDropFirstFrame = false;
 function ingame(dt, time) {
     if (!firstFrame[1]) {
+        andromedaDropFirstFrame = false;
         killerOpacity = 1.5;
         firstFrame[0] = false;
         firstFrame[1] = true;
@@ -555,12 +567,21 @@ function ingame(dt, time) {
                 document.getElementById("fog"+i).style.backgroundPositionX = time * i / 5 * i / 4 + "vh";
                 document.getElementById("fog"+i).style.backgroundPositionY = time * i / 10 + "vh";
             }
+            if (!andromedaDropFirstFrame) {
+                mortimerBeems.active = true;
+                camBeems.active = true;
+                bulletBeems.active = true;
+                andromedaDropFirstFrame = true;
+                document.getElementById("ingame").style.filter = "url(#andromedaFilter)";
+            }
             document.getElementById("ingame").style.rotate = Math.random()*1-0.5+"deg";
-            document.getElementById("ingame").style.filter = "url(#andromedaFilter)";
             diffMult = 2.6;
         } else {
-            document.getElementById("ingame").style.filter = "url(#andromedaFilter) brightness(0.3)";
             diffMult = 2;
+            for (let i = 1; i<4; i++) {
+                document.getElementById("fog"+i).style.backgroundPositionX = time * i / 150 * i / 4 + "vh";
+                document.getElementById("fog"+i).style.backgroundPositionY = time * i / 100 + "vh";
+            }
         }
     } else if (bcfyac) {
         document.getElementById("ingame").style.filter = "contrast(2.2) saturate(2.2) sepia(1) hue-rotate(240deg)";
@@ -709,7 +730,7 @@ function ingame(dt, time) {
             diffMult = 2.5;
         }
     }
-    if (!bcfyac) {
+    if (!bcfyac && !andromeda) {
         for (let i = 1; i<4; i++) {
             document.getElementById("fog"+i).style.backgroundPositionX = time * i / 100 * i / 4 + "vh";
             document.getElementById("fog"+i).style.backgroundPositionY = time * i / 150 + "vh";
