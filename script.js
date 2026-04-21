@@ -345,6 +345,7 @@ let BNCBest = 0;
 let EEBCFYBest = 0;
 let BCFYACBest = 0;
 let EBCFYPPBest = 0;
+let andromedaBest = 0;
 let saveData = {
     playtime: playtime,
     bestRun: bestRun,
@@ -354,6 +355,7 @@ let saveData = {
     EEBCFYBest: EEBCFYBest,
     BCFYACBest: BCFYACBest,
     EBCFYPPBest: EBCFYPPBest,
+    andromedaBest: andromedaBest,
 }
 function tasCollide(rect1, rect2) {
     return rect1.x < rect2.x + rect2.width &&
@@ -368,6 +370,7 @@ let nightLength = 360;
 let andromedaDropFirstFrame = false;
 function ingame(dt, time) {
     if (!firstFrame[1]) {
+        document.getElementById("ingame").style.filter = "";
         andromedaDropFirstFrame = false;
         killerOpacity = 1.5;
         firstFrame[0] = false;
@@ -383,6 +386,7 @@ function ingame(dt, time) {
             EEBCFYBest: EEBCFYBest,
             BCFYACBest: BCFYACBest,
             EBCFYPPBest: EBCFYPPBest,
+            andromedaBest: andromedaBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         document.getElementById("prologue").style.display = "none";
@@ -556,6 +560,9 @@ function ingame(dt, time) {
     if (EBCFYPPBest <= ingameTimer && eternalMod && !easyMode && prePatch) {
         EBCFYPPBest = ingameTimer;
     }
+    if (andromedaBest <= ingameTimer && andromeda) {
+        andromedaBest = ingameTimer;
+    }
     playtime += dt / speedhack;
     powerDrain = 0;
     for (let i = 0; i<doors.length; i++) {
@@ -573,9 +580,6 @@ function ingame(dt, time) {
                 document.getElementById("fog"+i).style.backgroundPositionY = time * i / 10 + "vh";
             }
             if (!andromedaDropFirstFrame) {
-                mortimerBeems.active = true;
-                camBeems.active = true;
-                bulletBeems.active = true;
                 andromedaDropFirstFrame = true;
                 document.getElementById("ingame").style.filter = "url(#andromedaFilter)";
             }
@@ -806,6 +810,7 @@ function ingame(dt, time) {
             EEBCFYBest: EEBCFYBest,
             BCFYAC: BCFYACBest,
             EBCFYPPBest: EBCFYPPBest,
+            andromedaBest: andromedaBest,
         }
         localStorage.setItem("data", JSON.stringify(saveData));
         scene = "win";
@@ -1042,6 +1047,8 @@ function loadProgress() {
     if (data.EEBCFYBest != null) EEBCFYBest = data.EEBCFYBest;
     if (data.BCFYACBest != null) BCFYACBest = data.BCFYACBest;
     if (data.EBCFYPPBest != null) EBCFYPPBest = data.EBCFYPPBest;
+    if (data.andromedaBest != null) andromedaBest = data.andromedaBest;
+    document.getElementById("andromedaBestRun").textContent = "Andromeda: " + Math.floor(andromedaBest / 278 * 100) + "%";
     document.getElementById("EBCFYPPBestRun").textContent = "EBCFYPP: " + Math.floor(EBCFYPPBest / 360 * 100) + "%";
     document.getElementById("BCFYACBestRun").textContent = "BCFYAC: " + Math.floor(BCFYACBest / 360 * 100) + "%";
     document.getElementById("EEBCFYBestRun").textContent = "EEBCFY: " + Math.floor(EEBCFYBest / 360 * 100) + "%";
