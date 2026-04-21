@@ -428,7 +428,7 @@ function ingame(dt, time) {
             diffMult = 2;
             sfx.beemsNeverClear.play();
             nightLength = 72;
-            power = 22;
+            power = 20;
             document.getElementById("lastMinute").style.display = "none";
         } else {
             if (eternalMod) {
