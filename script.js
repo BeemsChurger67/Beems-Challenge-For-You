@@ -204,6 +204,11 @@ document.getElementById("clickme").addEventListener("click", (e) => {
     soundVolume = -0.5;
     sfx.menuTheme.play();
 });
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState == "hidden") {
+        location.reload();
+    }
+});
 function updateDoors() {
     for (let i = 0; i<3; i++) {
         if (doors[i]) {
