@@ -445,6 +445,9 @@ function ingame(dt, time) {
             } 
             document.getElementById("openCams").style.transform = "translate(-50%,-50%) scale(1.5)";
             diffMult -= 0.3;
+            if (eternal) {
+                diffMult = 65;
+            }
         }
         doorCharacters = [
             {
