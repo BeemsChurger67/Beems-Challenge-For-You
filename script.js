@@ -400,7 +400,7 @@ function ingame(dt, time) {
         }
         transitionOpacity = 1.1;
         soundVolume = -0.1;
-        power = 100;
+        power = 75;
         phase = 0;
         doors = [false,false,false];
         camsOpened = false;
@@ -418,9 +418,11 @@ function ingame(dt, time) {
         if (andromeda) {
             sfx.andromeda.play();
             nightLength = 278;
+            power = 100;
         } else if (bcfyac) {
             sfx.BCFYAC.play();
         } else if (silentBeemathon) {
+            power = 100;
             diffMult = 1.6;
             sfx.silentBeemathon.play();
             document.getElementById("ingame").style.filter = "saturate(2) grayscale(1) contrast(2)"
@@ -445,8 +447,10 @@ function ingame(dt, time) {
             } 
             document.getElementById("openCams").style.transform = "translate(-50%,-50%) scale(1.5)";
             diffMult -= 0.3;
-            if (eternal) {
-                diffMult = 65;
+            if (eternalMod) {
+                power = 75;
+            } else {
+                power = 50;
             }
         }
         doorCharacters = [
