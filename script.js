@@ -192,6 +192,7 @@ document.getElementById("fnatgCams").addEventListener("mouseleave", (e) => {
 window.addEventListener("mousedown", (e) => {
     console.log(e.target.id);
 });
+window.addEventListener("contextmenu", (e) => {e.preventDefault();});
 document.getElementById("maxModeCompleted").addEventListener("mousedown", (e) => {
     location.reload();
 });
