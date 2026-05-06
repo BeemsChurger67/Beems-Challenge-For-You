@@ -420,6 +420,7 @@ function ingame(dt, time) {
             sfx.andromeda.play();
             nightLength = 278;
             power = 100;
+            diffMult = 2;
         } else if (bcfyac) {
             sfx.BCFYAC.play();
         } else if (silentBeemathon) {
